@@ -1,0 +1,88 @@
+<?php
+class RedBrickDigital_Admin_Core_Settings extends Genesis_Admin_Boxes {
+	function __construct() { 
+		$id = 'rbd_admin_core';	// Give the page a unique ID
+		
+		$menu = array(	// Create the Menu Item
+			'submenu' => array(
+				'parent_slug' => 'genesis',
+				'page_title'  => 'RBD Core Plugin',
+				'menu_title'  => 'RBD Core Plugin',
+				'capability'  => 'manage_options',
+			)
+		);
+
+		// Set up page options. These are optional, so only uncomment if you want to change the defaults
+		$structures = array(
+			//	'screen_icon'       => 'options-general',
+			//	'save_button_text'  => 'Save Settings',
+			//	'reset_button_text' => 'Reset Settings',
+			//	'save_notice_text'  => 'Settings saved.',
+			//	'reset_notice_text' => 'Settings reset.',
+		);		
+
+		// Give it a Unique settings field name. You'll access them with genesis_get_option( $OPTION_NAME, 'rbd-admin-core' );
+		$field = 'rbd-admin-core';
+
+		// Set the default values
+		$defaults = apply_filters(
+			'rbd-admin-core_defaults',
+			array(
+				'review_engine_url'	=> ''
+			)
+		);
+		
+		$this->create( $id, $menu, $structures, $field, $defaults );
+
+		// Initialize the Sanitization Filter
+		add_action( 'genesis_settings_sanitizer_init', array( $this, 'sanitization_filters' ) );
+	}
+
+	function sanitization_filters() {
+		// Checkboxes
+		genesis_add_option_filter(
+			'one_zero',
+			$this->settings_field,
+			array()
+		);
+		
+		// Text Fields
+		genesis_add_option_filter(
+			'no_html', 
+			$this->settings_field,
+			array()
+		);
+			
+		// Boxes that allow scripts
+		genesis_add_option_filter(
+			'requires_unfiltered_html',
+			$this->settings_field,
+			array()
+		);
+	}
+
+	// Add the metaboxes that will be on this page
+	function metaboxes() {
+		add_meta_box('rbd_core_settings', 'Settings', array( $this, 'rbd_core_settings' ), $this->pagehook, 'main', 'high' );
+	}
+
+	function rbd_core_settings(){
+		echo '
+			<div class="rbd-metabox rbd-core-ui">
+				<label class="d-ib" for="'. $this->get_field_id( 'review_engine_url' ) .'"><strong>Review Engine URL:</strong></label>
+				<div class="d-ib">
+					<input class="widefat" type="text" name="'. $this->get_field_name( 'review_engine_url' ) .'" id="'. $this->get_field_id( 'review_engine_url' ) .'" value="'. esc_attr( $this->get_field_value( 'review_engine_url' ) ) .'" />
+					<span class="description d-b m-t-sm">
+						<label for="'. $this->get_field_id( 'review_engine_url' ) .'">If you do not have a <a href="http://whirlocal.com/" target="_blank">whirLocal Review Engine</a>, you can find out how to get one <a href="http://whirlocal.com/" target="_blank" class="wp-core-ui button-secondary">Here</a></label>
+					</span>
+				</div>
+			</div>
+		';
+	}
+}
+
+add_action( 'genesis_admin_menu', 'add_rbd_admin_core_settings' );
+function add_rbd_admin_core_settings() {
+	global $_rbd_admin_core_settings;
+	$_rbd_admin_core_settings = new RedBrickDigital_Admin_Core_Settings;	 	
+}
