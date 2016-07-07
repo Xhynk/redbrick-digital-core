@@ -3,7 +3,7 @@ Contributors: Trey Rivers
 Tags: Review Engine
 Requires at least: 3.5.1
 Tested up to: 4.4.4
-Stable tag: 0.8.1
+Stable tag: 0.8.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -25,6 +25,10 @@ You *must* have a Review Engine account, such as via localreviewengine.com to us
 
 == Changelog ==
 
+= 0.8.2 =
+* Enabled image assets, included Social Proof widget.
+* TODO: Make all Review items (Shortcodes and Widgets) follow Schema.
+
 = 0.8.1 =
 * Official Beta Release
 * Prevented unpublished URLs from being returned in API calls.
@@ -32,6 +36,9 @@ You *must* have a Review Engine account, such as via localreviewengine.com to us
 * Unlocked more options in the Shortcode and Widget
 
 == Upgrade Notice ==
+
+= 0.8.2 =
+We're finally live in the repo! Please use the repository version of the plugin instead of local.
 
 = 0.8.1 =
 If you have a manually installed version, please delete it manually and restore from the repository.
