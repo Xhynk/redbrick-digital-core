@@ -3,15 +3,15 @@
 	 * Redbrick Digital Core
 	 *
 	 * @package     RBD Core
-	 * @author      Trey Rivers
-	 * @copyright   2016 Trey Rivers, redbrickdigital.net
+	 * @author      RedbrickDigital.net
+	 * @copyright   2016 RedbrickDigital.net
 	 * @license     GPL-2.0+
 	 *
 	 * @wordpress-plugin
 	 * Plugin Name: RBD Core
 	 * Description: This plugin enables Redbrick Digital Core usage, including the Review Engine Display shortcode, Review Slider widget, and Social Proof widget.
-	 * Version:     0.8.2.1
-	 * Author:      Trey Rivers, redbrickdigital.net
+	 * Version:     0.8.3
+	 * Author:      RedbrickDigital.net
 	 * Text Domain: rbd-core
 	 * License:     GPL-2.0+
 	 * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
