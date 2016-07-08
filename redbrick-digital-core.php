@@ -10,7 +10,7 @@
 	 * @wordpress-plugin
 	 * Plugin Name: RBD Core
 	 * Description: This plugin enables Redbrick Digital Core usage, including the Review Engine Display shortcode, Review Slider widget, and Social Proof widget.
-	 * Version:     0.8.2
+	 * Version:     0.8.2.1
 	 * Author:      Trey Rivers, redbrickdigital.net
 	 * Text Domain: rbd-core
 	 * License:     GPL-2.0+

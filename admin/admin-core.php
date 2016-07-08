@@ -1,7 +1,7 @@
 <?php
 add_action( 'admin_menu', 'rbd_core_settings_menu_item' );
 function rbd_core_settings_menu_item() {
-	add_menu_page( 'RBD Core Settings', 'RBD Core', 'editor', __FILE__, 'rbd_core_settings_page', 'dashicons-star-filled' );
+	add_menu_page( 'RBD Core Settings', 'RBD Core', 'manage_options', __FILE__, 'rbd_core_settings_page', 'dashicons-star-filled' );
 
 	// Register Settings Function on Init
 	add_action( 'admin_init', 'rbd_core_settings_on_init' );

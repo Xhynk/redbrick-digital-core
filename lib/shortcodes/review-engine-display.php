@@ -249,7 +249,7 @@
 
         $data_object = json_decode( get_transient( $transient_salt ) ); ?>
 
-        <div class="rbd-core-ui">
+        <div class="rbd-core-ui" itemscope itemtype="http://schema.org/LocalBusiness">
             <?php echo ( ($title !== '') ? '<h2 class="re-display-title">'.$title.'</h2>' : ''); ?>
 			<?php echo ( ($hide_overview !== true) ?
 				'<div class="re-header">
@@ -262,49 +262,51 @@
             <div class="row reviews-container">
                 <div class="reviews col-lg-12">
                     <div class="row">
-                        <?php foreach( $data_object->reviews as $review ){
-                                if( $review->status == 'publish' ){
-                                    $count++;
-                                    $row++;
+                        <?php if( !empty( $data_object->reviews ) ){
+							foreach( $data_object->reviews as $review ){
+	                                if( $review->status == 'publish' ){
+	                                    $count++;
+	                                    $row++;
 
-                                    $col_class  =  ( $columns == 1 ? 'col-lg-12' :
-                                                        ( $columns == 2 ? 'col-lg-6 col-sm-12' :
-                                                            ( $columns == 3 ? 'col-lg-4 col-md-6 col-sm-12' : 'col-lg-4 col-md-6 col-sm-12' ) ) );
+	                                    $col_class  =  ( $columns == 1 ? 'col-lg-12' :
+	                                                        ( $columns == 2 ? 'col-lg-6 col-sm-12' :
+	                                                            ( $columns == 3 ? 'col-lg-4 col-md-6 col-sm-12' : 'col-lg-4 col-md-6 col-sm-12' ) ) );
 
-                                    $meta_date  = ( $hide_date == true ) ? '' : ' on <strong>'. $review->review_meta->review_date->date .'</strong>';
-                                    $meta_name  = ( $hide_reviewer == true ) ? '' : ' by <strong>'. $review->review_meta->reviewer->display_name .'</strong>';
-                                    $meta       = ( $hide_date == true || $hide_reviewer == true ) ? '' : 'Reviewed '.$meta_name.$meta_date ;
+	                                    $meta_date  = ( $hide_date == true ) ? '' : ' on <strong>'. $review->review_meta->review_date->date .'</strong>';
+	                                    $meta_name  = ( $hide_reviewer == true ) ? '' : ' by <strong>'. $review->review_meta->reviewer->display_name .'</strong>';
+	                                    $meta       = ( $hide_date == true || $hide_reviewer == true ) ? '' : 'Reviewed'.$meta_name.$meta_date ;
 
-                                    $magic		= intval( substr( $review->rating, 0, 1 ) );
-                                    $stars		= '<span class="review-stars"><span class="star">'. str_repeat( '★', $magic ) .'</span><span class="dark-star">'. str_repeat( '★', 5 - $magic ) .'</span></span>';
+	                                    $magic		= intval( substr( $review->rating, 0, 1 ) );
+	                                    $stars		= '<span class="review-stars"><span class="star">'. str_repeat( '★', $magic ) .'</span><span class="dark-star">'. str_repeat( '★', 5 - $magic ) .'</span></span>';
 
-                                    $ellipses	= strlen( $review->content ) > $characters ? '...' : '';
-                                    $read_more	= $ellipses != '' ? '<div><a href="'. $review->url .'" target="_blank" class="'. $button_classes .' right" data-attr="Read More">Read More</a></div>' : '';
-                                    $visibility	= $count <= $perpage ? 'show' : '';
-									if( $count > $perpage ){
-										break;
-									}
-                                ?>
-                                <div class="review <?php echo $col_class; ?> <?php echo $visibility; ?>" data-attr="<?php echo $count; ?>">
-                                    <p class="_title"><?php echo $review->title; ?></p>
-                                    <?php if( !empty( $meta) ){ echo '<p class="_meta">'. $meta .'</p>'; } ?>
-                                    <p class="_content"><?php echo $stars.substr( $review->content, 0, $characters ).$ellipses.$read_more; ?></p>
-                                </div>
-                            <?php
-                                if( $columns == 3 || empty( $columns ) ){
-                                    if( $row % 2 == 0 ) { echo '<div class="clearfix visible-md-block"></div>'; }
-                                    if( $row % 3 == 0 ) { echo '<div class="clearfix visible-lg-block"></div>'; }
-                                } else if( $columns == 2 ){
-                                    if( $row % 2 == 0 ) {
-                                        echo '<div class="clearfix visible-lg-block"></div>';
-                                    } else {
-                                        echo '<div class="clearfix visible-md-block"></div>';
-                                    }
-                                } else {
-                                    echo '<div class="clearfix"></div>';
-                                }
-                            }
-                        } ?>
+	                                    $ellipses	= strlen( $review->content ) > $characters ? '...' : '';
+	                                    $read_more	= $ellipses != '' ? '<div><a href="'. $review->url .'" target="_blank" class="'. $button_classes .' right" data-attr="Read More">Read More</a></div>' : '';
+	                                    $visibility	= $count <= $perpage ? 'show' : '';
+										if( $count > $perpage ){
+											break;
+										}
+	                                ?>
+	                                <div itemscope itemtype="http://schema.org/Review" class="review <?php echo $col_class; ?> <?php echo $visibility; ?>" data-attr="<?php echo $count; ?>">
+	                                    <p class="_title"><?php echo $review->title; ?></p>
+	                                    <?php if( !empty( $meta) ){ echo '<p class="_meta">'. $meta .'</p>'; } ?>
+	                                    <p class="_content"><?php echo $stars.substr( $review->content, 0, $characters ).$ellipses.$read_more; ?></p>
+	                                </div>
+	                            <?php
+	                                if( $columns == 3 || empty( $columns ) ){
+	                                    if( $row % 2 == 0 ) { echo '<div class="clearfix visible-md-block"></div>'; }
+	                                    if( $row % 3 == 0 ) { echo '<div class="clearfix visible-lg-block"></div>'; }
+	                                } else if( $columns == 2 ){
+	                                    if( $row % 2 == 0 ) {
+	                                        echo '<div class="clearfix visible-lg-block"></div>';
+	                                    } else {
+	                                        echo '<div class="clearfix visible-md-block"></div>';
+	                                    }
+	                                } else {
+	                                    echo '<div class="clearfix"></div>';
+	                                }
+	                            }
+	                        }
+						} ?>
                     </div>
                 </div>
                 <?php if( $data_object->data[0]->total_reviews > $data_object->data[0]->returned_reviews ){ ?>

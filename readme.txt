@@ -3,27 +3,30 @@ Contributors: Trey Rivers
 Tags: Review Engine
 Requires at least: 3.5.1
 Tested up to: 4.4.4
-Stable tag: 0.8.2
+Stable tag: 0.8.2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-This plugins allows you to bring Review Engine reviews into your WordPress site via a shortcode and review slider widget.
+Bring your Review Engine reviews into your WordPress website via shortcodes and widgets. 
 
 == Description ==
 
-This plugins allows you to bring Review Engine reviews into your WordPress site via a shortcode and review slider widget.
+This plugins allows you to bring Review Engine reviews into your WordPress site via shortcodes and widget. 
 
-You *must* have a Review Engine account, such as via localreviewengine.com to use this plugin. You may have a lite or premium account.
+You **must** have a Review Engine *lite* or *paid* account to use this plugin.
 
 == Installation ==
 
 1. Upload the plugin files to the `/wp-content/plugins/plugin-name` directory, or install the plugin through the WordPress plugins screen directly.
 2. Activate the plugin through the 'Plugins' screen in WordPress
-3. Go to the RBD Core menu item and place your review engine URL into the box.
-4. Now you may use the Review Engine Shortcode on any page, post, or custom post type with a content editor, or the Review Slider widget in any widget area.
+3. Go to the RBD Core menu item and place your review engine URL into provided text input.
+4. Now you may use the Review Engine Shortcode on any page, post, or custom post type with a content editor, or the Review Slider and Social Proof widgets in any widget area.
 
 
 == Changelog ==
+
+= 0.8.2.1 =
+* Fixed RBD Core menu item not showing up on non-multisite installations.
 
 = 0.8.2 =
 * Enabled image assets, included Social Proof widget.
@@ -35,15 +38,8 @@ You *must* have a Review Engine account, such as via localreviewengine.com to us
 * Converted to Review Engine API v2
 * Unlocked more options in the Shortcode and Widget
 
-== Upgrade Notice ==
-
-= 0.8.2 =
-We're finally live in the repo! Please use the repository version of the plugin instead of local.
-
-= 0.8.1 =
-If you have a manually installed version, please delete it manually and restore from the repository.
-
-== Arbitrary section ==
+== Plugin Initialization
+ ==
 Plugin Setup
 
 To enable the Review Slider widget and Review Engine Display Shortcode button, first go to the RBD Core link that's in the left-hand admin menu. Place the URL of your Review Engine in the Review Engine URL box, and then hit the Save Changes button.
