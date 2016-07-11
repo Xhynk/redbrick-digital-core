@@ -22,6 +22,12 @@ You **must** have a Review Engine *lite* or *paid* account to use this plugin.
 3. Go to the RBD Core menu item and place your review engine URL into provided text input.
 4. Now you may use the Review Engine Shortcode on any page, post, or custom post type with a content editor, or the Review Slider and Social Proof widgets in any widget area.
 
+== Screenshots ==
+
+1. Creating a Review Engine Shortcode for a page, post, or custom post type.
+
+2. Using the Review Slider widget in a sidebar widget area.
+
 
 == Changelog ==
 
