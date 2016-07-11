@@ -28,7 +28,7 @@ You **must** have a Review Engine *lite* or *paid* account to use this plugin.
 
 2. Using the Review Slider widget in a sidebar widget area.
 
-== F.A.Q. ==
+== FAQ ==
 
 "**I don't see the shortcode button or widget, where are they?**"
 
