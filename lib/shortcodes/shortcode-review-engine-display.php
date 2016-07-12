@@ -2,8 +2,7 @@
 	// Add Review Engine Shortcode "Add Media" button
 	add_action( 'media_buttons', 'rbd_core_add_review_engine_button', 25 );
 	function rbd_core_add_review_engine_button(){
-		$review_engine_url = get_option('rbd_core_review_engine_url');
-		if( !empty( $review_engine_url ) ){
+		if( get_option('rbd_core_review_engine_url') ){
 			echo '<button type="button" id="insert-reviews-button" class="button insert-review-engine-display add_review_engine" data-editor="content"><span class="wp-media-buttons-icon"></span> Add Review Engine Display</button>';
 		}
 	}
@@ -12,8 +11,7 @@
 	add_action( 'admin_footer', 'trm_faq_dropdowns_admin_cloud_x' );
 	function trm_faq_dropdowns_admin_cloud_x(){
 		$pre_data			= rbd_core_api_call();
-		$current_user		= wp_get_current_user();
-		$review_engine_url	= get_option( 'rbd_core_review_engine_url' ); ?>
+		$current_user		= wp_get_current_user(); ?>
 
 		<div class="rbd-core-ui">
 			<div class="rbd-re-popup-cloud p-a bg-transparent-dark hidden">
@@ -27,7 +25,7 @@
 								<div class="six columns">
 									<label for="url">
 										<span>URL:</span>
-										<input type="text" name="url" id="url" class="wp-core-ui widefat" value="<?php echo $review_engine_url; ?>" />
+										<input type="text" name="url" id="url" class="wp-core-ui widefat" value="<?php echo rbd_core_url(); ?>" />
 									</label>
 								</div>
 								<div class="six columns">
@@ -233,12 +231,9 @@
 
         $button_classes = ( $disable_css == true ) ? 'button button-primary btn read-more' : 'rbd-button';
 
-		$query = "?query_v2=true&user=thirdriverdev&key=56677c860f0f351a0a1b726b74f2f215$threshold$perpage$service$location$employee";
+		$api_url		= rbd_core_url( true )."$threshold$perpage$service$location$employee";
 
-		$api_string			= "/reviews-api-v2/$query";
-		$api_url			= 'http://'. str_replace( 'http://', '', $url ) . $api_string;
-
-		$transient_salt = 'review_engine_transient-'. get_the_title() . get_the_modified_time( 'U' );
+		$transient_salt	= 'review_engine_transient-'. get_the_title() . get_the_modified_time( 'U' );
 
         if ( false === ( $review_engine_transient = get_transient( $transient_salt ) ) ){
             $review_engine_transient = @file_get_contents( $api_url );

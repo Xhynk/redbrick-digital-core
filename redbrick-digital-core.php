@@ -184,11 +184,15 @@
 	 * @internal { I have to `str_replace` the URL sooo freaking much. I turned
   	 *	it into it's own function so I don't have to double function each string. }
 	 *
-	 * @param Optional: Type. Indicates request for URL or API URL, otherwise
-	 *	returns standard URL.
+	 * @param Optional: Type. Boolean. Indicates request for URL or API URL,
+	 * otherwise returns standard URL.
+	 *
 	 * @return A reconstructed URL so there's no fragment or missing protocol.
+	 *
+	 * @example rbd_core_url() = engine url, rbd_core_url(true) = engine URL
+	 *	with API key string attached, add more parameters to the end.
 	*/
-	function rbd_core_url( $rbd_core_url_args ){
+	function rbd_core_url( $optional = false ){
 		# Force http:// and get the URL
 		$url		= get_option( 'rbd_core_review_engine_url' );
 		$protocol	= 'http://';
@@ -196,14 +200,14 @@
 		$_api_ver	= '?query_v2=true';
 		$_api_usr	= '&user=thirdriverdev';
 		$_api_key	= '&key=56677c860f0f351a0a1b726b74f2f215';
-		$_new_url	= str_replace( array( 'http://', 'https://' ), '', $url );
+		$_new_url	= $protocol.str_replace( array( 'http://', 'https://' ), '', $url );
 
 		# See If User Wants API URL or Not and return
 		/**
 		 * @internal { We don't currently use `https://`, so lets remove it if a
 	 	 *	client adds it for some reason. }
 		*/
-		return ( $rbd_core_url_args == true ) ? $_new_url : $_new_url.$_api_url.$_api_ver.$_api_usr.$_api_key;
+		return ( $optional == true ) ? $_new_url.$_api_url.$_api_ver.$_api_usr.$_api_key : $_new_url;
 	}
 
 	/**
