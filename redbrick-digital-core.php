@@ -153,9 +153,6 @@
 	*/
 	add_action( 'after_setup_theme', 'rbd_core_load_shortcodes' );
 	function rbd_core_load_shortcodes(){
-		# Define Review Engine URL Option as Variable
-		$engine_url = get_option( 'rbd_core_review_engine_url' );
-
 		# Define Shortcodes
 		$shortcodes = array(
 			'review-engine-display'
@@ -165,7 +162,7 @@
 		/**
 		 * @TODO: Check if this is a real URL via an API calls
 		*/
-		if( !empty( $engine_url ) ){
+		if( get_option( 'rbd_core_review_engine_url' ) ){
 			# Loop Shortcodes and Include if Matched
 			foreach( $shortcodes as $shortcode ){
 				include( plugin_dir_path( __FILE__ ) . 'lib/shortcodes/shortcode-'. $shortcode .'.php' );
@@ -198,8 +195,8 @@
 		$protocol	= 'http://';
 		$_api_url	= '/reviews-api-v2/';
 		$_api_ver	= '?query_v2=true';
-		$_api_usr	= '&user=thirdriverdev';
-		$_api_key	= '&key=56677c860f0f351a0a1b726b74f2f215';
+		$_api_usr	= '&user=RedbrickDigitalDev';
+		$_api_key	= '&key=c97d195f043c82acd070a6e8be211eeb';
 		$_new_url	= $protocol.str_replace( array( 'http://', 'https://' ), '', $url );
 
 		# See If User Wants API URL or Not and return
