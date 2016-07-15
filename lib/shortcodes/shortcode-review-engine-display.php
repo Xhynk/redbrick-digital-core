@@ -5,6 +5,11 @@
 	 * @package \lib\shortcodes
 	 * @author  RedbrickDigital.net
 	 * @license GPL-2.0+
+	 * @since 0.2.1
+	 *
+	 *        (\ /)
+	 *       ( . .) ♥ ~< Creates a columnar list of reviews on pages/posts! >
+	 *       c(”)(”)
 	*/
 
 	/**
@@ -15,11 +20,12 @@
 	add_action( 'media_buttons', 'rbd_core_add_shortcode_button', 25 );
 	function rbd_core_add_shortcode_button(){
 		if( get_option( 'rbd_core_review_engine_url' ) ){
-			$class	= 'button insert-review-engine-display add_review_engine';
 			$type	= 'button';
+			$class	= "$type insert-review-engine-display add_review_engine";
+			$icon	= '<span class="wp-media-buttons-icon"></span>';
 			$label	= 'Add Review Engine Display';
 
-			echo "<$type type=\"$type\" id=\"insert-reviews-button\" class=\"$classes\" data-editor=\"content\"><span class=\"wp-media-buttons-icon\"></span> $label</$type>";
+			echo "<$type type='$type' id='insert-reviews-$type' class='$class' data-editor='content'>$icon $label</$type>";
 		}
 	}
 
@@ -31,13 +37,10 @@
 	 * @internal { Thickbox was being a whore, so we're using a custom popup
  	 *	instead. It works... }
 	 *
-	 * @uses rbd_core_api_call() - Returns information from Review Engine.
+	 * @uses rbd_core_api_call() - Returns object from Review Engine API.
 	*/
 	add_action( 'admin_footer', 'trm_faq_dropdowns_admin_cloud_x' );
-	function trm_faq_dropdowns_admin_cloud_x(){
-		$pre_data		= rbd_core_api_call();
-		$current_user	= wp_get_current_user(); ?>
-
+	function trm_faq_dropdowns_admin_cloud_x(){ ?>
 		<div class="rbd-core-ui">
 			<div class="rbd-re-popup-cloud p-a bg-transparent-dark hidden">
 				<div class="rbd-re-popup p-f m-0-a bg-white box-close">
@@ -76,7 +79,7 @@
 										<span>Service:</span>
 										<select id="service" name="service" class="wp-core-ui widefat">
 											<option value="all">All</option>
-											<?php foreach( $pre_data->company[0]->taxonomies[0]->service[0] as $service_x ){
+											<?php foreach( rbd_core_api_call()->company[0]->taxonomies[0]->service[0] as $service_x ){
 												$selected = ( $service == $service_x->slug ) ? 'selected="selected"' : '';
 												echo "<option $selected value='$service_x->slug'>$service_x->name</option>";
 											} ?>
@@ -88,7 +91,7 @@
 										<span>Staff:</span>
 										<select id="employee" name="employee" class="wp-core-ui widefat">
 											<option value="all">All</option>
-											<?php foreach( $pre_data->company[0]->taxonomies[0]->employee[0] as $employee_x ){
+											<?php foreach( rbd_core_api_call()->company[0]->taxonomies[0]->employee[0] as $employee_x ){
 												$selected = ( $employee == $employee_x->slug ) ? 'selected="selected"' : '';
 												echo "<option $selected value='$employee_x->slug'>$employee_x->name</option>";
 											} ?>
@@ -100,7 +103,7 @@
 										<span>Location:</span>
 										<select id="location" name="location" class="wp-core-ui widefat">
 											<option value="all">All</option>
-											<?php foreach( $pre_data->company[0]->taxonomies[0]->location[0] as $location_x ){
+											<?php foreach( rbd_core_api_call()->company[0]->taxonomies[0]->location[0] as $location_x ){
 												$selected = ( $location == $location_x->slug ) ? 'selected="selected"' : '';
 												echo "<option $selected value='$location_x->slug'>$location_x->name</option>";
 											} ?>
@@ -239,6 +242,7 @@
             'placeholder' => ''
         ), $atts ) );
 
+		# Decode all parameters from shortcode
         $title			= urldecode( $atts['title'] );
         $perpage	    = urldecode( $atts['perpage'] );
         $columns	    = urldecode( $atts['columns'] );
@@ -272,21 +276,27 @@
         $button_classes = ( $disable_css == true ) ? 'button button-primary btn read-more' : 'rbd-button';
 		$transient_salt	= 'review_engine_transient-'. get_the_title() . get_the_modified_time( 'U' );
 
+		# Turn API Query from shortcode into a transient saved object
         if ( false === ( $review_engine_transient = get_transient( $transient_salt ) ) ){
             $review_engine_transient = @file_get_contents( $api_url );
             set_transient( $transient_salt, $review_engine_transient, 86400 );
         }
-		$data_object = json_decode( get_transient( $transient_salt ) ); ?>
+		$data_object 	= json_decode( get_transient( $transient_salt ) );
+
+		$url			= rbd_core_url();
+		$title			= ( $title == '' ) ? '' : "<h2 class='re-display-title'>$title</h2>";
+		$overview		= ( $hide_overview == true ) ? '' : "
+			<div class='re-header'>
+				<h3 class='overview dib'>
+					<span class='aggregate'><strong>{$data_object->data[0]->aggregate}</strong></span><span class='star'>★</span>/<strong>5</strong> based on <strong><span class='review-count'>{$data_object->data[0]->total_reviews}</span> reviews</strong>
+				</h3>
+				<a style='position: relative; top: -3px;' class='dib write-review big $button_classes' target='_blank' href='$url'>Write a Review</a>
+			</div>"; ?>
 
         <div class="rbd-core-ui" itemscope itemtype="http://schema.org/LocalBusiness">
-            <?php echo ( ($title !== '') ? '<h2 class="re-display-title">'. $title .'</h2>' : ''); ?>
-			<?php echo ( ($hide_overview !== true) ?
-				'<div class="re-header">
-					<h3 class="overview dib">
-						<span class="aggregate"><strong>'. $data_object->data[0]->aggregate. '</strong></span><span class="star">★</span>/<strong>5</strong> based on <strong><span class="review-count">'. $data_object->data[0]->total_reviews .'</span> reviews</strong>
-					</h3>
-					<a style="position: relative; top: -3px;" class="dib write-review '. $button_classes .' big" target="_blank" href="'. rbd_core_url() .'">Write a Review</a>
-				</div>' : '' );
+            <?php
+				echo $title;
+				echo $overview;
 			?>
             <div class="reviews-container">
                 <div class="reviews row">
@@ -327,14 +337,10 @@
                                 </div>
                             <?php
                                 if( $columns == 3 || empty( $columns ) ){
-                                    if( $row % 2 == 0 ) { echo '<div class="clearfix visible-md-block"></div>'; }
-                                    if( $row % 3 == 0 ) { echo '<div class="clearfix visible-lg-block"></div>'; }
+                                    echo ( $row % 2 == 0 ) ? '<div class="clearfix visible-md-block"></div>' : '';
+                                    echo ( $row % 3 == 0 ) ? '<div class="clearfix visible-lg-block"></div>' : '';
                                 } else if( $columns == 2 ){
-                                    if( $row % 2 == 0 ) {
-                                        echo '<div class="clearfix visible-lg-block"></div>';
-                                    } else {
-                                        echo '<div class="clearfix visible-md-block"></div>';
-                                    }
+									echo ( $row % 2 == 0 ) ? '<div class="clearfix visible-lg-block"></div>' : '<div class="clearfix visible-md-block"></div>';
                                 } else {
                                     echo '<div class="clearfix"></div>';
                                 }

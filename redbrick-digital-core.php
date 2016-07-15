@@ -11,15 +11,16 @@
 	 * @wordpress-plugin
 	 * Plugin Name: Redbrick Digital Core
 	 * Description: This plugin enables Redbrick Digital Core usage, including the Review Engine Display shortcode, Review Slider widget, and Social Proof widget.
-	 * Version:     0.8.4
+	 * Version:     0.8.5
 	 * Author:      RedbrickDigital.net
 	 * Text Domain: rbd-core
 	 * License:     GPL-2.0+
 	 * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 	*/
 
-/// <Code Block A>
-/// STANDARD FUNCTIONS
+	##        (\ /)
+	##       ( . .) ♥ ~< Code Block - A: Standard Functions >
+	##       c(”)(”)
 
 	/**
 	 * Load Stylesheets
@@ -28,14 +29,8 @@
 	*/
 	add_action( 'wp_enqueue_scripts', 'rbd_core_load_css' );
 	function rbd_core_load_css(){
-		# Register Styles
-		wp_register_style( 'rbd-core', plugins_url( '/assets/css/core.css', __FILE__ ) );
-		wp_register_style( 'rbd-cutestrap-min', plugins_url( '/assets/css/cutestrap.min.css', __FILE__ ) );
-
-		# Enqueue Styles
-		wp_enqueue_style( 'rbd-widgets' );
-		wp_enqueue_style( 'rbd-core' );
-		wp_enqueue_style( 'rbd-cutestrap-min' );
+		wp_enqueue_style( 'rbd-core', plugins_url( '/assets/css/core.css', __FILE__ ) );
+		wp_enqueue_style( 'rbd-cutestrap-min', plugins_url( '/assets/css/cutestrap.min.css', __FILE__ ) );
 	}
 
 	/**
@@ -45,13 +40,8 @@
 	*/
 	add_action( 'wp_enqueue_scripts', 'rbd_core_load_js' );
 	function rbd_core_load_js(){
-		# Unslider Plugin
-		wp_register_script( 'unslider-min', plugins_url( '/assets/js/unslider.min.js', __FILE__ ), array( 'jquery' ), '', true );
-		wp_enqueue_script( 'unslider-min' );
-
-		# Widget Javascript
-		wp_register_script( 'rbd-core-widgets', plugins_url( '/assets/js/widgets.js', __FILE__ ), array( 'jquery' ), '', true );
-		wp_enqueue_script( 'rbd-core-widgets' );
+		wp_enqueue_script( 'unslider-min', plugins_url( '/assets/js/unslider.min.js', __FILE__ ), array( 'jquery' ), '', true );
+		wp_enqueue_script( 'rbd-core-widgets', plugins_url( '/assets/js/widgets.js', __FILE__ ), array( 'jquery' ), '', true );
 	}
 
 	/**
@@ -61,13 +51,9 @@
 	*/
 	add_action( 'admin_enqueue_scripts', 'rbd_core_load_admin_css' );
 	function rbd_core_load_admin_css(){
-		# Register Styles
-		wp_register_style( 'rbd-admin', plugins_url( '/assets/css/admin.css', __FILE__ ) );
-		wp_register_style( 'rbd-rangeslider', plugins_url( '/assets/plugins/rangeslider/rangeslider.css', __FILE__ ) );
-
-		# Enqueue Styles
-		wp_enqueue_style( 'rbd-admin' );
-		wp_enqueue_style( 'rbd-rangeslider' );
+		wp_enqueue_style( 'wp-color-picker' );
+		wp_enqueue_style( 'rbd-admin', plugins_url( '/assets/css/admin.css', __FILE__ ) );
+		wp_enqueue_style( 'rbd-rangeslider', plugins_url( '/assets/plugins/rangeslider/rangeslider.css', __FILE__ ) );
 	}
 
 	/**
@@ -77,11 +63,8 @@
 	*/
 	add_action( 'admin_enqueue_scripts', 'rbd_core_conditional_add_media_js' );
 	function rbd_core_conditional_add_media_js(){
-		# Enqueue Styles
-		wp_enqueue_style( 'wp-color-picker' );
+		wp_enqueue_script( 'wp-color-picker');
 
-		# Enqueue Scripts
-    	wp_enqueue_script( 'wp-color-picker');
 		wp_enqueue_script( 'rbd-rangeslider', plugins_url( '/assets/plugins/rangeslider/rangeslider.min.js', __FILE__ ), array('jquery'), '1.0', true );
 		wp_enqueue_script( 'rbd-admin', plugins_url( '/assets/js/admin.js', __FILE__ ), array('jquery', 'rbd-rangeslider', 'wp-color-picker'), '1.0', true );
 	}
@@ -98,14 +81,12 @@
 	*/
 	add_action( 'after_setup_theme', 'rbd_core_load_admin_pages' );
 	function rbd_core_load_admin_pages(){
-		# Define Admin Pages as Array
 		$admin_pages = array(
 			'core'
 		);
 
-		# Loop Through Array, Include Matched Pages
 		foreach( $admin_pages as $admin_page ){
-			include_once( plugin_dir_path( __FILE__ ) . 'admin/admin-'. $admin_page .'.php' );
+			include_once( plugin_dir_path( __FILE__ ) . 'admin/admin-core.php' );
 		}
 	}
 
@@ -122,10 +103,6 @@
 	*/
 	add_action( 'after_setup_theme', 'rbd_core_load_widgets' );
 	function rbd_core_load_widgets(){
-		# Define Review Engine URL Option as Variable
-		$engine_url = get_option( 'rbd_core_review_engine_url' );
-
-		# Define Widgets
 		$widgets = array(
 			'social-proof',
 			'review-slider'
@@ -135,8 +112,7 @@
 		/**
 		 * @TODO: Check if this is a real URL via an API calls
 		*/
-		if( !empty( $engine_url ) ){
-			# Loop Widgets and Include if Matched
+		if( get_option( 'rbd_core_review_engine_url' ) ){
 			foreach( $widgets as $widget ){
 				include( plugin_dir_path( __FILE__ ) . 'lib/widgets/widget-'. $widget .'.php' );
 			}
@@ -153,7 +129,6 @@
 	*/
 	add_action( 'after_setup_theme', 'rbd_core_load_shortcodes' );
 	function rbd_core_load_shortcodes(){
-		# Define Shortcodes
 		$shortcodes = array(
 			'review-engine-display'
 		);
@@ -163,15 +138,15 @@
 		 * @TODO: Check if this is a real URL via an API calls
 		*/
 		if( get_option( 'rbd_core_review_engine_url' ) ){
-			# Loop Shortcodes and Include if Matched
 			foreach( $shortcodes as $shortcode ){
 				include( plugin_dir_path( __FILE__ ) . 'lib/shortcodes/shortcode-'. $shortcode .'.php' );
 			}
 		}
 	}
 
-/// <Code Block B>
-/// LARGE SCOPE FUNCTIONS
+	##        (\ /)
+	##       ( . .) ♥ ~< Code Block - B: Larger Scope Functions >
+	##       c(”)(”)
 
 	/**
 	 * Reconstruct Review Engine URL
@@ -199,10 +174,10 @@
 		$_api_key	= '&key=c97d195f043c82acd070a6e8be211eeb';
 		$_new_url	= $protocol.str_replace( array( 'http://', 'https://' ), '', $url );
 
-		# See If User Wants API URL or Not and return
+		# See If User Wants API URL or Not and return it
 		/**
-		 * @internal { We don't currently use `https://`, so lets remove it if a
-	 	 *	client adds it for some reason. }
+		 * @internal { We don't currently use `https://`, so it's removed if a
+	 	 *	client adds it for some reason, and replaced with http:// }
 		*/
 		return ( $optional == true ) ? $_new_url.$_api_url.$_api_ver.$_api_usr.$_api_key : $_new_url;
 	}
@@ -221,10 +196,7 @@
 	 * @example @see `/lib/shortcodes/shortcode-review-engine-display.php`
 	*/
 	function rbd_core_api_call(){
-		# Define Basic Light API String
-		/**
-		 * @TODO: Make NO reviews an Option
-		*/
+		# Define Basic Light API String, we need 1 review, or we get X or ALL
 		$api_url = rbd_core_url( true ) .'&reviews_per_page=1';
 
 		# Check for `rbd_core_api_call`, set and use if doesn't exist
@@ -232,8 +204,6 @@
 			$rbd_core_api_call = @file_get_contents( $api_url );
 			set_transient( 'rbd_core_api_call', $rbd_core_api_call, 86400 );
 		}
-
-		# Return JSON Decoded transient as an object
 		return json_decode( get_transient( 'rbd_core_api_call' ) );
 	}
 ?>
