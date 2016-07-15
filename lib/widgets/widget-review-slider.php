@@ -57,6 +57,8 @@
 
 			$query = "?query_v2=true&user=thirdriverdev&key=56677c860f0f351a0a1b726b74f2f215$threshold$perpage$service$location$employee";
 
+			$arrow				= ' <i class="fa fa-angle-right"></i>';
+
 			$api_string			= "/reviews-api-v2/$query";
 			$api_url			= 'http://'. str_replace( 'http://', '', $url ) . $api_string;
 
@@ -90,7 +92,7 @@
 
 										$reviewer	= $hide_reviewer != true ? '<br /><span class="reviewer"><em>'. $review->review_meta->reviewer->display_name .'</em></span>' : '';
 										$ellipses	= strlen( $review->content ) > $character_count ? '...' : '';
-										$read_more	= strlen( $review->content ) > $character_count ? '<div class="center"><a class="'. $button_classes .'" target="_blank" href="'. $review->review_data->url .'">Read More</a></div>' : '';
+										$read_more	= strlen( $review->content ) > $character_count ? "<div class='center'><a class='$button_classes' target='_blank' href='{$review->review_data->url}'><span class='_label'>Read More</span>$arrow</a></a></div>" : '';
 
 										$stars		= '<span class="star medium">'. str_repeat( '★', $rating ) . '<span class="dark-star">'. str_repeat( '★', 5 - $rating ) .'</span></span>';
 										$synopsis	= '<div class="synopsis center">'. $stars.$reviewer .'</div>';

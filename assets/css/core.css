@@ -59,9 +59,10 @@
 }
 
 .rbd-core-ui .rbd-button {
+	position: relative;
 	display: inline-block;
     border: 1px solid;
-    padding: 2px 12px 2px;
+    padding: 4px 26px 1px;
 	background: #FFF;
     border-radius: 3px;
     box-shadow: 0 3px 3px rgba(0,0,0,.1);
@@ -71,8 +72,53 @@
 	text-decoration: none;
 }
 
+.rbd-core-ui .rbd-button,
+.rbd-core-ui .rbd-button * {
+	position: relative;
+	-webkit-transition: opacity .3s cubic-bezier(0.54, -0.29, 0.29, 1.46), left .3s cubic-bezier(0.54, -0.29, 0.29, 1.46), right .3s cubic-bezier(0.54, -0.29, 0.29, 1.46);;
+	-moz-transition: opacity .3s cubic-bezier(0.54, -0.29, 0.29, 1.46), left .3s cubic-bezier(0.54, -0.29, 0.29, 1.46), right .3s cubic-bezier(0.54, -0.29, 0.29, 1.46);;
+	-ms-transition: opacity .3s cubic-bezier(0.54, -0.29, 0.29, 1.46), left .3s cubic-bezier(0.54, -0.29, 0.29, 1.46), right .3s cubic-bezier(0.54, -0.29, 0.29, 1.46);;
+	-o-transition: opacity .3s cubic-bezier(0.54, -0.29, 0.29, 1.46), left .3s cubic-bezier(0.54, -0.29, 0.29, 1.46), right .3s cubic-bezier(0.54, -0.29, 0.29, 1.46);;
+	transition: opacity .3s cubic-bezier(0.54, -0.29, 0.29, 1.46), left .3s cubic-bezier(0.54, -0.29, 0.29, 1.46), right .3s cubic-bezier(0.54, -0.29, 0.29, 1.46);;
+}
+
+.rbd-core-ui .rbd-button span {
+	left: 0px;
+}
+
+.rbd-core-ui .rbd-button i {
+	-ms-filter: "alpha(opacity=0)";
+	opacity: 0;
+	display: inline-block;
+	vertical-align: middle;
+	top: 50%;
+	margin-top: -9px;
+	right: 24px;
+	position: absolute;
+}
+
+.rbd-core-ui .rbd-button:hover span {
+	left: -10px;
+}
+
+.rbd-core-ui .rbd-button:hover i {
+	-ms-filter: "alpha(opacity=100)";
+	opacity: 1;
+	right: 16px;
+}
+
 .rbd-core-ui .rbd-button.big {
+	padding: 8px 34px 5px;
 	font-size: 110%;
+	background-color: currentColor;
+}
+
+.rbd-core-ui .rbd-button.big * {
+	color: #fff;
+}
+
+.rbd-core-ui .rbd-button.big i {
+	margin-top: -10px;
 }
 
 .rbd-core-ui .write-review {
@@ -85,19 +131,13 @@
 	clear: both;
 }
 
-.rbd-core-ui .paginated {
-	padding: 5px 18px;
-}
-
 .rbd-core-ui .rbd-button:hover {
     box-shadow: none;
-    transform: scale(.99);
 	text-decoration: none;
 }
 
 .rbd-core-ui .rbd-button:active {
-    box-shadow: inset 0 3px 4px rgba(0,0,0,.1);
-    transform: scale(.98);
+    box-shadow: inset 0 1px 5px 1px rgba(0,0,0,.15);
 }
 
 .rbd-core-ui .hide {

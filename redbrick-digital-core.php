@@ -31,6 +31,7 @@
 	function rbd_core_load_css(){
 		wp_enqueue_style( 'rbd-core', plugins_url( '/assets/css/core.css', __FILE__ ) );
 		wp_enqueue_style( 'rbd-cutestrap-min', plugins_url( '/assets/css/cutestrap.min.css', __FILE__ ) );
+		wp_enqueue_style( 'font-awesome', 'https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css' );
 	}
 
 	/**
@@ -64,7 +65,6 @@
 	add_action( 'admin_enqueue_scripts', 'rbd_core_conditional_add_media_js' );
 	function rbd_core_conditional_add_media_js(){
 		wp_enqueue_script( 'wp-color-picker');
-
 		wp_enqueue_script( 'rbd-rangeslider', plugins_url( '/assets/plugins/rangeslider/rangeslider.min.js', __FILE__ ), array('jquery'), '1.0', true );
 		wp_enqueue_script( 'rbd-admin', plugins_url( '/assets/js/admin.js', __FILE__ ), array('jquery', 'rbd-rangeslider', 'wp-color-picker'), '1.0', true );
 	}
@@ -124,8 +124,9 @@
 	 *
 	 * @since 0.2.2
 	 *
-	 * @internal { Shortcodes are loaded exactly the same way as Widgets. The
-	 *	only difference is in the file functionality. @see: Initialize Widgets }
+	 * @internal { Shortcodes are loaded exactly the same way as Widgets.
+	 *	The only difference is in the file functionality. }
+	 * @see: Initialize Widgets
 	*/
 	add_action( 'after_setup_theme', 'rbd_core_load_shortcodes' );
 	function rbd_core_load_shortcodes(){
@@ -168,11 +169,12 @@
 		# Force http:// and get the URL
 		$url		= get_option( 'rbd_core_review_engine_url' );
 		$protocol	= 'http://';
+		$_mod_url	= str_replace( array( 'http://', 'https://' ), '', $url );
 		$_api_url	= '/reviews-api-v2/';
 		$_api_ver	= '?query_v2=true';
 		$_api_usr	= '&user=RedbrickDigitalDev';
 		$_api_key	= '&key=c97d195f043c82acd070a6e8be211eeb';
-		$_new_url	= $protocol.str_replace( array( 'http://', 'https://' ), '', $url );
+		$_new_url	= $protocol.$_mod_url;
 
 		# See If User Wants API URL or Not and return it
 		/**
