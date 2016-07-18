@@ -3,7 +3,7 @@ Contributors: RedbrickDigital
 Tags: Review Engine
 Requires at least: 3.5.1
 Tested up to: 4.5.3
-Stable tag: 0.8.3
+Stable tag: 0.8.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -37,6 +37,14 @@ Make sure you've put your Review Engine URL into the *RBD Core* admin page!
 
 == Changelog ==
 
+= 0.8.9 =
+* Some under-the-hood changes to plugin layout and commenting have increased standards.
+* Added Schema Markup to the Review Engine Display shortcode.
+* Increased compatibility with Upper Right widget area.
+* Increated compatibility with theme colors.
+* Changed display styles of all Review Engine Display and Review Slider buttons.
+* Note: This is a temporary release, and is not mandatory. If you'd like Schema on all widgets, please wait for the 0.9.0 update.
+
 = 0.8.3 =
 * An additional commit, also updated ReadMe.txt's additional section.
 
@@ -54,6 +62,9 @@ Make sure you've put your Review Engine URL into the *RBD Core* admin page!
 * Unlocked more options in the Shortcode and Widget
 
 = Upgrade Notice =
+
+= 0.8.9 =
+* Please upgrade to the latest version.
 
 = 0.8.3 =
 * Please upgrade to the latest version.
