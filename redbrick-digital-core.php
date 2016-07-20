@@ -114,7 +114,7 @@
 		*/
 		if( get_option( 'rbd_core_review_engine_url' ) ){
 			foreach( $widgets as $widget ){
-				include( plugin_dir_path( __FILE__ ) . 'lib/widgets/widget-'. $widget .'.php' );
+				include( plugin_dir_path( __FILE__ ) . "lib/widgets/$widget/widget-$widget.php" );
 			}
 		}
 	}
@@ -140,7 +140,7 @@
 		*/
 		if( get_option( 'rbd_core_review_engine_url' ) ){
 			foreach( $shortcodes as $shortcode ){
-				include( plugin_dir_path( __FILE__ ) . 'lib/shortcodes/shortcode-'. $shortcode .'.php' );
+				include( plugin_dir_path( __FILE__ ) . "lib/shortcodes/$shortcode/shortcode-$shortcode.php" );
 			}
 		}
 	}
