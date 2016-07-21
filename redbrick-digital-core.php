@@ -11,7 +11,7 @@
 	 * @wordpress-plugin
 	 * Plugin Name: Redbrick Digital Core
 	 * Description: This plugin enables Redbrick Digital Core usage, including the Review Engine Display shortcode, Review Slider widget, and Social Proof widget.
-	 * Version:     0.9.1
+	 * Version:     0.9.1.1
 	 * Author:      RedbrickDigital.net
 	 * Text Domain: rbd-core
 	 * License:     GPL-2.0+
@@ -227,5 +227,48 @@
 		$_css_ready	= $_symbol . $_replace;
 
 		return $_css_ready;
+	}
+
+	/**
+	 * Debugging
+	*/
+	add_action( 'genesis_after_content_sidebar_wrap', 'rbd_core_debug' );
+	function rbd_core_debug(){
+		if( $_GET['debug'] ){
+			if( $_GET['debug'] == 'phpinfo' ){
+				phpinfo();
+			} else if( $_GET['debug'] == 'api' ){
+				$_url		= $_GET['url'];
+				$_mod_url	= str_replace( array( 'http://', 'https://' ), '', $_url );
+				$_api_url	= 'http://'. $_mod_url .'/reviews-api-v2/?query_v2=true&user=RedbrickDigitalDev&key=aacb.1493ccebbe';
+
+				$api_object = $_GET['strict'] == true ? file_get_contents( $_api_url ) : @file_get_contents( $_api_url );
+
+				echo '<h2 style="width: 100%; clear: both; background: #e4e4e4; padding: 10px 20px; margin: 0; border: 1px solid #aaa; border-left-width: 10px; border-bottom: 0;">Redbrick Digital Core: Debug Error Output:</h2>';
+				echo '<div style="width: 100%; clear: both; float: left; background: #f8f8f8; color: #333; border: 1px solid #aa0000; border-left-width: 10px; padding: 10px 20px; font-size: 16px;">';
+					print_r( $api_object );
+				echo '</div>';
+			} else if( $_GET['debug'] == 'transient' ){
+				$_url		= $_GET['url'];
+				$_mod_url	= str_replace( array( 'http://', 'https://' ), '', $_url );
+				$_api_url	= 'http://'. $_mod_url .'/reviews-api-v2/?query_v2=true&user=RedbrickDigitalDev&key=aacb.1493ccebbe';
+
+				if( $_GET['delete'] != true ){
+					if( false === ( $debug_transient = get_transient( 'rbd_core-debug' ) ) ){
+						$debug_transient = @file_get_contents( $_api_url );
+						set_transient( 'rbd_core-debug', $debug_transient, 86400 );
+					}
+				} else {
+					delete_transient( 'rbd_core-debug' );
+				}
+
+				$api_object	= json_decode( get_transient( 'rbd_core-debug' ) );
+
+				echo '<h2 style="width: 100%; clear: both; background: #e4e4e4; padding: 10px 20px; margin: 0; border: 1px solid #aaa; border-left-width: 10px; border-bottom: 0;">Redbrick Digital Core: Debug Error Output:</h2>';
+				echo '<div style="width: 100%; clear: both; float: left; background: #f8f8f8; color: #333; border: 1px solid #aa0000; border-left-width: 10px; padding: 10px 20px; font-size: 16px;">';
+					print_r( $api_object );
+				echo '</div>';
+			}
+		}
 	}
 ?>

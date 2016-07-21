@@ -37,6 +37,9 @@ Make sure you've put your Review Engine URL into the *RBD Core* admin page!
 
 == Changelog ==
 
+= 0.9.1.1 =
+* Enabled basic debug features via query string. "debug=api / url=[URL HERE], debug=transient url=[URL HERE] delete=true, debug=phpinfo"
+
 = 0.9.1 =
 * Broke Write a Review and Show More Reviews buttons, now fixed.
 
@@ -73,6 +76,9 @@ Make sure you've put your Review Engine URL into the *RBD Core* admin page!
 * Unlocked more options in the Shortcode and Widget
 
 = Upgrade Notice =
+
+= 0.9.1.1 =
+* Please upgrade to the latest version.
 
 = 0.9.1 =
 * Please upgrade to the latest version.
