@@ -3,7 +3,7 @@ Contributors: RedbrickDigital
 Tags: Review Engine
 Requires at least: 3.5.1
 Tested up to: 4.5.3
-Stable tag: 0.9.0.1
+Stable tag: 0.9.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,6 +36,9 @@ Make sure you've put your Review Engine URL into the *RBD Core* admin page!
 
 
 == Changelog ==
+
+= 0.9.1 =
+* Broke Write a Review and Show More Reviews buttons, now fixed.
 
 = 0.9.0.1 =
 * Backwards Compatibility for Review Engine Shortcode "Per Page" parameter
@@ -70,6 +73,9 @@ Make sure you've put your Review Engine URL into the *RBD Core* admin page!
 * Unlocked more options in the Shortcode and Widget
 
 = Upgrade Notice =
+
+= 0.9.1 =
+* Please upgrade to the latest version.
 
 = 0.9.0.1 =
 * Please upgrade to the latest version.
