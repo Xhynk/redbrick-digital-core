@@ -3,7 +3,7 @@ Contributors: RedbrickDigital
 Tags: Review Engine
 Requires at least: 3.5.1
 Tested up to: 4.5.3
-Stable tag: 0.8.9
+Stable tag: 0.9.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -37,6 +37,11 @@ Make sure you've put your Review Engine URL into the *RBD Core* admin page!
 
 == Changelog ==
 
+= 0.9.0 =
+* Refactored Widgets into sub-directories
+* Wrapped all review based widgets and shortcodes in Schema Markup
+* Made Review Engine Display transient salt much less stupid.
+
 = 0.8.9 =
 * Some under-the-hood changes to plugin layout and commenting have increased standards.
 * Added Schema Markup to the Review Engine Display shortcode.
@@ -62,6 +67,9 @@ Make sure you've put your Review Engine URL into the *RBD Core* admin page!
 * Unlocked more options in the Shortcode and Widget
 
 = Upgrade Notice =
+
+= 0.9.0 =
+* Please upgrade to the latest version.
 
 = 0.8.9 =
 * Please upgrade to the latest version.

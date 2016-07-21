@@ -50,7 +50,7 @@
 
 		# Turn API Query from shortcode into a transient saved object
 		$_url		= rbd_core_url( true );
-		$_key		= md5( get_the_title() . get_the_modified_time( 'U' ) );
+		$_key		= get_the_ID();
 		$_salt		= "rbd_core_shortcode_review_engine_display-$_key";
 		$api_url	= $_url . $threshold . $reviews_per_page . $service . $location . $employee;
 
