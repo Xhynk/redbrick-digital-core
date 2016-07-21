@@ -78,7 +78,7 @@
 			</div>";
 
 			ob_start(); ?>
-			<div class='rbd-core-ui' itemscope itemtype="http://schema.org/LocalBusiness">
+			<div class='rbd-core-ui review-engine-display' itemscope itemtype="http://schema.org/LocalBusiness">
 				<?php echo $title; ?>
 				<?php echo $overview; ?>
 				<div class="reviews-container">
