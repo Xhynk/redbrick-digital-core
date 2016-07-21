@@ -90,11 +90,10 @@
 	-ms-filter: "alpha(opacity=0)";
 	opacity: 0;
 	display: inline-block;
-	vertical-align: middle;
-	top: 50%;
-	margin-top: -9px;
 	right: 24px;
 	position: absolute;
+	top: 50%;
+    transform: translateY(-50%);
 }
 
 .rbd-core-ui .rbd-button:hover span {
@@ -115,10 +114,6 @@
 
 .rbd-core-ui .rbd-button.big * {
 	color: #fff;
-}
-
-.rbd-core-ui .rbd-button.big i {
-	margin-top: -10px;
 }
 
 .rbd-core-ui .write-review {
@@ -190,6 +185,9 @@
 .rbd-review-slider .meta,
 .rbd-review-slider .synopsis {
 	margin-top: 8px; }
+
+.rbd-core-ui .review-stars {
+	margin: 0; }
 
 .rbd-review-slider .star {
 	top: -2px; }

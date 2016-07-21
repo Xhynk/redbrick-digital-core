@@ -30,29 +30,21 @@
 	}
 
 	/**
-	 * Add Popup to Footer
+	 * Move Asset Functions to New Files
 	 *
-	 * @since 0.2.2
+	 * @since 0.8.9
 	 *
-	 * @internal { Thickbox was being a whore, so we're using a custom popup
- 	 *	instead. It works... }
-	 *
-	 * @uses rbd_core_api_call() - Returns object from Review Engine API.
+	 * @internal { Code was getting too messy in one file }
 	*/
-	add_action( 'admin_footer', '_review_engine_display_dropdown_cloud' );
-	function _review_engine_display_dropdown_cloud(){
-		include( plugin_dir_path( __FILE__ ) . 'asset-functions/review-engine-display-dropdown-cloud.php' );
-	}
+	$ext	= '.php';
+	$path 	= 'asset-functions/';
+	$slug 	= 'review-engine-display-';
+	$func 	= array(
+		'dropdown-cloud',
+		'add-shortcode'
+	);
 
-	/**
-	 * Add and Parse Shortcode
-	 *
-	 * @since 0.2.2
-	 *
-	 * @uses rbd_core_url() - Returns Review Engine URL w/ or w/o API string.
-	*/
-	add_shortcode( 'rbd_review_engine', '_review_engine_display_add_shortcode' );
-    function _review_engine_display_add_shortcode( $atts ){
-		include( plugin_dir_path( __FILE__ ) . 'asset-functions/review-engine-display-add-shortcode.php' );
-    }
+	foreach( $func as $include ){
+		include( plugin_dir_path( __FILE__ ) . $path . $slug . $include . $ext );
+	}
 ?>

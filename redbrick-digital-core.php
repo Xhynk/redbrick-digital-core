@@ -195,7 +195,7 @@
 	 *
 	 * @uses rbd_core_url() - Returns Review Engine URL w/ or w/o API string.
 	 * @return Object from basic API Call
-	 * @example @see `/lib/shortcodes/shortcode-review-engine-display.php`
+	 * @example @see `/lib/shortcodes/review-engine-display/shortcode-review-engine-display.php`
 	*/
 	function rbd_core_api_call(){
 		# Define Basic Light API String, we need 1 review, or we get X or ALL
@@ -207,5 +207,25 @@
 			set_transient( 'rbd_core_api_call', $rbd_core_api_call, 86400 );
 		}
 		return json_decode( get_transient( 'rbd_core_api_call' ) );
+	}
+
+	/**
+	 * Colorize Color Variable
+	 *
+	 * @since 0.8.9
+	 *
+	 * @internal { Colors are a nuisance. Sometimes people use # and Sometimes
+	 * they don't. Let's parse that for them, maybe add RGB colors too? }
+	 *
+	 * @return CSS-Ready Colorized String
+	 * @example @see `/lib/widgets/social-proof/widget-social-proof.php`
+	*/
+	function rbd_core_colorize( $color ){
+		# Force http:// and get the URL
+		$_symbol	= '#';
+		$_replace	= str_replace( $_symbol, '', $color );
+		$_css_ready	= $_symbol . $_replace;
+
+		return $_css_ready;
 	}
 ?>
