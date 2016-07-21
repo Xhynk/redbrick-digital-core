@@ -75,7 +75,7 @@
 				<h3 class='overview dib'>
 					<span class='aggregate'><strong>{$api_object->data[0]->aggregate}</strong></span><span class='star'>★</span>/<strong>5</strong> based on <strong><span class='review-count'>{$api_object->data[0]->total_reviews}</span> reviews</strong>
 				</h3>
-				<a style='position: relative; top: -3px;' class='dib write-review big $button_classes' target='_blank' href='$url'><span class='_label'>Write a Review</span>$arrow</a>
+				<a style='position: relative; top: -3px;' class='dib write-review big $button_classes' target='_blank' href='{$api_object->data[0]->review_engine_url}'><span class='_label'>Write a Review</span>$arrow</a>
 			</div>";
 
 			ob_start(); ?>
