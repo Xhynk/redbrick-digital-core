@@ -41,6 +41,7 @@
 			'employee'			=> 'employee',
 			'location'			=> 'location',
 			'threshold'			=> 'threshold',
+			'perpage'			=> 'reviews_per_page',
 			'reviews_per_page'	=> 'reviews_per_page',
 		);
 
