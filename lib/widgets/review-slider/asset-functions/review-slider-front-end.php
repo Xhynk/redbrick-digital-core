@@ -42,7 +42,7 @@
 	$api_url	= $_url . $_query;
 
 	if ( false === ( $_var = get_transient( $_id ) ) ) {
-		$_var = @file_get_contents( $api_url );
+		$_var = rbd_core_file_get_contents_curl( $api_url );
 		set_transient( $_id, $_var, 86400 );
 	}
 	$api_object = json_decode( get_transient( $_id ) );

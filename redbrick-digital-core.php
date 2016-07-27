@@ -11,7 +11,7 @@
 	 * @wordpress-plugin
 	 * Plugin Name: Redbrick Digital Core
 	 * Description: This plugin enables Redbrick Digital Core usage, including the Review Engine Display shortcode, Review Slider widget, and Social Proof widget.
-	 * Version:     0.9.1.2
+	 * Version:     0.9.2
 	 * Author:      RedbrickDigital.net
 	 * Text Domain: rbd-core
 	 * License:     GPL-2.0+
@@ -150,6 +150,32 @@
 	##       c(”)(”)
 
 	/**
+	 * Replace file_get_contents with cURL for larger responses
+	 *
+	 * @since 0.9.1
+	 *
+	 * @internal { `file_get_content()` was really slow on other servers, so
+	 *	cURL is supposed to be faster. }
+	 *
+	 * @return $response, the JSON Data from the API
+	 * @example @see `/lib/shortcodes/review-engine-display/widget-review-engine-display.php`
+	*/
+	function rbd_core_file_get_contents_curl( $url ) {
+		$ch = curl_init();
+
+		curl_setopt($ch, CURLOPT_AUTOREFERER, TRUE);
+		curl_setopt($ch, CURLOPT_HEADER, 0);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+
+		$response = curl_exec($ch);
+		curl_close($ch);
+
+		return $response;
+	}
+
+	/**
 	 * Reconstruct Review Engine URL
 	 *
 	 * @since 0.8.3
@@ -203,7 +229,7 @@
 
 		# Check for `rbd_core_api_call`, set and use if doesn't exist
 		if ( false === ( $rbd_core_api_call = get_transient( 'rbd_core_api_call' ) ) ) {
-			$rbd_core_api_call = @file_get_contents( $api_url );
+			$rbd_core_api_call = rbd_core_file_get_contents_curl( $api_url );
 			set_transient( 'rbd_core_api_call', $rbd_core_api_call, 86400 );
 		}
 		return json_decode( get_transient( 'rbd_core_api_call' ) );
@@ -231,6 +257,7 @@
 
 	/**
 	 * Debugging
+	 * @since 0.9.0
 	*/
 	add_action( 'get_footer', 'rbd_core_debug' );
 	function rbd_core_debug(){
@@ -242,7 +269,7 @@
 				$_mod_url	= str_replace( array( 'http://', 'https://' ), '', $_url );
 				$_api_url	= 'http://'. $_mod_url .'/reviews-api-v2/?query_v2=true&user=RedbrickDigitalDev&key=aacb.1493ccebbe';
 
-				$api_object = $_GET['strict'] == true ? file_get_contents( $_api_url ) : @file_get_contents( $_api_url );
+				$api_object = $_GET['strict'] == true ? rbd_core_file_get_contents_curl( $_api_url ) : rbd_core_file_get_contents_curl( $_api_url );
 
 				echo '<h2 style="width: 100%; clear: both; background: #e4e4e4; padding: 10px 20px; margin: 0; border: 1px solid #aaa; border-left-width: 10px; border-bottom: 0;">Redbrick Digital Core: Debug Error Output:</h2>';
 				echo '<div style="width: 100%; clear: both; float: left; background: #f8f8f8; color: #333; border: 1px solid #aa0000; border-left-width: 10px; padding: 10px 20px; font-size: 16px;">';

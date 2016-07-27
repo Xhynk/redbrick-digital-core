@@ -56,7 +56,7 @@
 		$api_url	= $_url . $threshold . $reviews_per_page . $service . $location . $employee;
 
 		if( false === ( $transient = get_transient( $_salt ) ) ){
-			$transient = @file_get_contents( $api_url );
+			$transient = rbd_core_file_get_contents_curl( $api_url );
 			set_transient( $_salt, $transient, 86400 );
 		}
 		$api_object	= json_decode( get_transient( $_salt ) );

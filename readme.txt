@@ -3,7 +3,7 @@ Contributors: RedbrickDigital
 Tags: Review Engine
 Requires at least: 3.5.1
 Tested up to: 4.5.3
-Stable tag: 0.9.1.2
+Stable tag: 0.9.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,6 +36,9 @@ Make sure you've put your Review Engine URL into the *RBD Core* admin page!
 
 
 == Changelog ==
+
+= 0.9.2 =
+* Replaced file_get_contents() for API calls with custom function that uses cURL. Sites not on our server cluster were freezing on API calls.
 
 = 0.9.1.1 =
 * Enabled basic debug features via query string. "debug=api / url=[URL HERE], debug=transient url=[URL HERE] delete=true, debug=phpinfo"
@@ -76,6 +79,9 @@ Make sure you've put your Review Engine URL into the *RBD Core* admin page!
 * Unlocked more options in the Shortcode and Widget
 
 = Upgrade Notice =
+
+= 0.9.2 =
+* Please upgrade to the latest version.
 
 = 0.9.1.1 =
 * Please upgrade to the latest version.

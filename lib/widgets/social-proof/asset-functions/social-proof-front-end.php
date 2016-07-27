@@ -21,9 +21,9 @@
 	$_total_reviews	= $pre_data->data[0]->total_reviews;
 
 	$_width			= $_aggregate * 20 . '%';
-	$_font_color	= ( !empty( $font_color ) ) ? "color: $_color": '';
+	$_font_color	= ( !empty( $font_color ) ) ? "color: $_color;": '';
 
-	$meta			= "<span class='meta small relative' style='$_font_color'>Based on <span class='bold'><a target='_blank' href='$_url' style='$_font_color'><span itemprop='ratingCount'>$_total_reviews</span> Reviews</a></span></span>";
+	$meta			= "<span class='meta small relative' style='$_font_color'>Based on <span class='bold'><a target='_blank' href='$_url' style='$_font_color text-decoration: none;'><span itemprop='ratingCount'>$_total_reviews</span> Reviews</a></span></span>";
 	$dark			= '<span class="dark-star absolute dib">★★★★★</span>';
 	$star			= "<span class='star relative dib'><span class='trim flex' style='width: $_width'>★★★★★</span></span>";
 	$string			= "<span class='aggregate' style='$_font_color'><span class='bold'>$_aggregate</span> <span class='small'>out of</span> <span class='bold'>5</span></span>";
