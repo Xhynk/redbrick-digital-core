@@ -11,7 +11,7 @@
 	 * @wordpress-plugin
 	 * Plugin Name: Redbrick Digital Core
 	 * Description: This plugin enables Redbrick Digital Core usage, including the Review Engine Display shortcode, Review Slider widget, and Social Proof widget.
-	 * Version:     0.9.2
+	 * Version:     0.9.3
 	 * Author:      RedbrickDigital.net
 	 * Text Domain: rbd-core
 	 * License:     GPL-2.0+
@@ -30,7 +30,8 @@
 	add_action( 'wp_enqueue_scripts', 'rbd_core_load_css' );
 	function rbd_core_load_css(){
 		wp_enqueue_style( 'rbd-core', plugins_url( '/assets/css/core.css', __FILE__ ) );
-		wp_enqueue_style( 'rbd-cutestrap-min', plugins_url( '/assets/css/cutestrap.min.css', __FILE__ ) );
+		#wp_enqueue_style( 'rbd-cutestrap-min', plugins_url( '/assets/css/cutestrap.min.css', __FILE__ ) ); // Cutestrap was a trimmed Bootstrap 3, but it doesn't work globally.
+		wp_enqueue_style( 'bootstrap', plugins_url( '/assets/css/bootstrap.min.css', __FILE__ ) );
 		wp_enqueue_style( 'font-awesome', 'https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css' );
 	}
 
