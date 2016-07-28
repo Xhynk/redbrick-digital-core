@@ -3,7 +3,7 @@ Contributors: RedbrickDigital
 Tags: Review Engine
 Requires at least: 3.5.1
 Tested up to: 4.5.3
-Stable tag: 0.9.3
+Stable tag: 0.9.3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,6 +36,9 @@ Make sure you've put your Review Engine URL into the *RBD Core* admin page!
 
 
 == Changelog ==
+
+= 0.9.3.1 =
+* Shrunk Bootstrap 4.0.0-alpha.3 into new Cutestrap.
 
 = 0.9.3 =
 * Replaced Cutestrap (based on Bootstrap 3) with Bootstrap 4, Alpha 3.
@@ -82,6 +85,9 @@ Make sure you've put your Review Engine URL into the *RBD Core* admin page!
 * Unlocked more options in the Shortcode and Widget
 
 = Upgrade Notice =
+
+= 0.9.3.1 =
+* Please upgrade to the latest version.
 
 = 0.9.3 =
 * Please upgrade to the latest version.
