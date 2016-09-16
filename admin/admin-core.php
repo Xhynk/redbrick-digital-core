@@ -21,7 +21,7 @@ function rbd_core_settings_on_init() {
 function rbd_core_settings_page() {
     $rbd_settings_group = 'rbd-core-settings-group'; ?>
     <div class="wrap">
-        <h2>RBD Core Settings</h2>
+        <h2>RBD Core Verification</h2>
         <form method="post" action="options.php">
             <?php settings_fields( $rbd_settings_group ); ?>
             <?php do_settings_sections( $rbd_settings_group ); ?>
@@ -30,7 +30,7 @@ function rbd_core_settings_page() {
                     <th scope="row">Review Engine URL:</th>
                     <td>
                         <input class="regular-text" type="text" name="rbd_core_review_engine_url" value="<?php echo esc_attr( get_option('rbd_core_review_engine_url') ); ?>" />
-                        <p class="description">If you don't have a review engine, please contact your account representative.</p>
+                        <p class="description">This field verifies access to Review Engines. You can change the URL in Widgets and Shortcodes as needed. <br />If you don't have a review engine, please contact your account representative.</p>
                     </td>
                 </tr>
             </table>

@@ -69,6 +69,7 @@
 		$button_classes = ( $disable_css == true ) ? 'button button-primary btn read-more' : 'rbd-button';
 
 		# Define Snips of HTML
+		/* TODO: Make the Write a Review button have a pop-up version of the review form. Look at `http://codepen.io/creativetim/pen/EgVBXa` for inspiration. */
 		$title		= ( $title == '' ) ? '' : "<h2 class='re-display-title'>$title</h2>";
 		$overview	= ( $hide_overview == true ) ? '' : "
 			<div class='re-header'>
@@ -79,7 +80,7 @@
 			</div>";
 
 			ob_start(); ?>
-			<div class='rbd-core-ui review-engine-display' itemscope itemtype="http://schema.org/LocalBusiness">
+			<div class="rbd-core-ui review-engine-display">
 				<?php echo $title; ?>
 				<?php echo $overview; ?>
 				<div class="reviews-container">
@@ -103,40 +104,32 @@
 																									</div>" : '';
 
 										$_stars		= "<span class='review-stars'>
-															<span itemprop='reviewRating' itemscope itemtype='http://schema.org/Rating'>
-																<meta itemprop='ratingValue' content='$_rating' />
-																<meta itemprop='bestRating' content='5' />
+															<span>
 																<span class='star'>$_good</span>
 																<span class='dark-star'>$_bad</span>
 															</span>
 														</span>";
 
-										$_reviewbody= "<span itemprop='reviewBody'>$_content</span>";
+										$_reviewbody= "<span>$_content</span>";
 										$content	= '<p class="_content">'. $_stars . $_reviewbody . $_ellipses . $_more .'</p>';
 
 										$classes	.=  ( $columns == 1 ? ' col-lg-12' :
 															( $columns == 2 ? ' col-lg-6 col-sm-12' :
 																( $columns == 3 ? ' col-lg-4 col-md-6 col-sm-12' : ' col-lg-4 col-md-6 col-sm-12' ) ) );
 
-										$meta_date	= ( $hide_date == true ) ? "<meta itemprop='datePublished' content='{$review->review_meta->review_date->timestamp}' />"
-																			: " on <strong><meta itemprop='datePublished' content='{$review->review_meta->review_date->timestamp}' />{$review->review_meta->review_date->date}</strong>";
+										$meta_date	= ( $hide_date == true ) ? "" : " on <strong>{$review->review_meta->review_date->date}</strong>";
 
-										$meta_name	= ( $hide_reviewer == true ) ? "<span itemprop='author' itemscope itemtype='http://schema.org/Person'><meta itemprop='name' content='{$review->review_meta->reviewer->display_name}' /></span>"
-																				: " by <strong><span itemprop='author' itemscope itemtype='http://schema.org/Person'><span itemprop='name'>{$review->review_meta->reviewer->display_name}</span></strong>";
+										$meta_name	= ( $hide_reviewer == true ) ? "" : " by <strong><span>{$review->review_meta->reviewer->display_name}</span></strong>";
 
 										$meta		= ( $hide_date == true || $hide_reviewer == true ) ? $meta_name.$meta_date
 																									: '<p class="_meta">Reviewed'. $meta_name . $meta_date .'</p>';
 									?>
-									<div itemscope itemtype="http://schema.org/Review" class="<?php echo $classes; ?>" data-attr="<?php echo $count; ?>">
-										<meta itemprop="itemReviewed" content="<?php echo $api_object->company[0]->name; ?>" />
-										<p itemprop="name" class="_title"><?php echo $review->title; ?></p>
+									<div class="<?php echo $classes; ?>" data-attr="<?php echo $count; ?>">
+										<p class="_title"><?php echo $review->title; ?></p>
 										<?php
 											echo $meta;
 											echo $content;
 										?>
-										<span itemprop="publisher" itemscope itemtype="http://schema.org/WebPage">
-											<meta itemprop="url" content="<?php echo $api_object->data[0]->engine; ?>">
-										</span>
 									</div>
 									<?php
 										if( $columns == 3 || empty( $columns ) ){

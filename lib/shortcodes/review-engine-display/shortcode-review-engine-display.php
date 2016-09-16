@@ -8,7 +8,7 @@
 	 * @since 0.2.1
 	 *
 	 *        (\ /)
-	 *       ( . .) ♥ ~< Creates a columnar list of reviews on pages/posts! >
+	 *       ( . .) ♥ ~< Creates a columnar list of reviews on pages/posts >
 	 *       c(”)(”)
 	*/
 
@@ -40,8 +40,8 @@
 	$path 	= 'asset-functions/';
 	$slug 	= 'review-engine-display-';
 	$func 	= array(
-		'dropdown-cloud',
-		'add-shortcode'
+		'admin',
+		'front-end'
 	);
 
 	foreach( $func as $include ){

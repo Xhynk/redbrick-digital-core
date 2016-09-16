@@ -23,7 +23,7 @@
 	$_width			= $_aggregate * 20 . '%';
 	$_font_color	= ( !empty( $font_color ) ) ? "color: $_color;": '';
 
-	$meta			= "<span class='meta small relative' style='$_font_color'>Based on <span class='bold'><a target='_blank' href='$_url' style='$_font_color text-decoration: none;'><span itemprop='ratingCount'>$_total_reviews</span> Reviews</a></span></span>";
+	$meta			= "<span class='meta small relative' style='$_font_color'>Based on <span class='bold'><a target='_blank' href='$_url' style='$_font_color text-decoration: none;'><span>$_total_reviews</span> Reviews</a></span></span>";
 	$dark			= '<span class="dark-star absolute dib">★★★★★</span>';
 	$star			= "<span class='star relative dib'><span class='trim flex' style='width: $_width'>★★★★★</span></span>";
 	$string			= "<span class='aggregate' style='$_font_color'><span class='bold'>$_aggregate</span> <span class='small'>out of</span> <span class='bold'>5</span></span>";
@@ -31,12 +31,9 @@
 	// before and after widget arguments are defined by themes
 	echo $args['before_widget']; ?>
 		<div class="rbd-core-ui">
-			<div class="rbd-reviews-social-proof" style="text-align: <?php echo $text_align; ?>;" itemscope itemtype="http://schema.org/Organization">
-				<meta itemprop="name" content="<?php echo $pre_data->company[0]->name; ?>" />
-				<span class="text-center dib" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+			<div class="rbd-reviews-social-proof" style="text-align: <?php echo $text_align; ?>;">
+				<span class="text-center dib">
 					<span class="star-container relative text-left">
-						<meta itemprop="ratingValue" content="<?php echo $_aggregate; ?>" />
-						<meta itemprop="bestRating" content="5" />
 						<?php echo $dark . $star; ?>
 					</span>
 					<span class="padding">&nbsp;&nbsp;&nbsp;&nbsp;</span>

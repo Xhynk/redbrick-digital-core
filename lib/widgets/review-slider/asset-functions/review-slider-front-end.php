@@ -15,6 +15,8 @@
 	# Backwards Compatibility
 	$characters = !empty( $character_count ) ? $character_count : $characters;
 
+	# Slider Speed
+	/* Had to increase to n+1 because 0 was acting funny, so 1 is effectively 0, 101 is 100, etc. */
 	$speed = ( $slider_speed == 101 ? array( true, 3000, 500, '' ) :
 					( $slider_speed == 76 ? array( true, 5000, 700, '' ) :
 						( $slider_speed == 51 ? array( true, 7000, 900, '' ) :
@@ -77,15 +79,11 @@
 																									<a href='{$review->url}' target='_blank' class='$button_classes center' data-attr='Read More'><span class='_label'>Read More</span>$arrow</a>
 																								</div>" : '';
 
-								$_date			= "<meta itemprop='datePublished' content='{$review->review_meta->review_date->timestamp}' />";
-								$_author		= $hide_reviewer == true ? "<span itemprop='author' itemscope itemtype='http://schema.org/Person'><meta itemprop='name' content='{$review->review_meta->reviewer->display_name}' /></span>"
-																			: "<span class='reviewer'> - <span itemprop='author' itemscope itemtype='http://schema.org/Person'><em>{$review->review_meta->reviewer->display_name}</em></span></span>";
+								$_author		= $hide_reviewer == true ? "" : "<span class='reviewer'> - <span><em>{$review->review_meta->reviewer->display_name}</em></span></span>";
 
 
 								$_stars			= "<div class='review-stars center'>
-														<span itemprop='reviewRating' itemscope itemtype='http://schema.org/Rating'>
-															<meta itemprop='ratingValue' content='$_rating' />
-															<meta itemprop='bestRating' content='5' />
+														<span>
 															<span class='star medium'>$_good</span>
 															<span class='dark-star medium'>$_bad</span>
 														</span> $_author
@@ -99,18 +97,13 @@
 
 								$content		= $_content . $_ellipses . $_more; ?>
 
-								<li class="review-wrap review" style="list-style-type: none;" itemscope itemtype="http://schema.org/Review">
+								<li class="review-wrap review" style="list-style-type: none;">
 									<div>
-										<meta itemprop="itemReviewed" content="<?php echo $api_object->company[0]->name; ?>" />
-										<h5 itemprop="name" class="review-title"><strong><?php echo $_title; ?></strong></h5>
-										<p itemprop="reviewBody" class="review-content"><?php echo $content ?></p>
+										<h5 class="review-title"><strong><?php echo $_title; ?></strong></h5>
+										<p class="review-content"><?php echo $content ?></p>
 										<div class="synopsis center">
 											<?php echo $_stars . $_meta; ?>
 										</div>
-										<?php echo $_date; ?>
-										<span itemprop="publisher" itemscope itemtype="http://schema.org/WebPage">
-											<meta itemprop="url" content="<?php echo $api_object->data[0]->engine; ?>">
-										</span>
 									</div>
 								</li>
 

@@ -2,16 +2,16 @@
 Contributors: RedbrickDigital
 Tags: Review Engine
 Requires at least: 3.5.1
-Tested up to: 4.5.3
-Stable tag: 0.9.3.2
+Tested up to: 4.6.1
+Stable tag: 0.9.3.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Bring your Review Engine reviews into your WordPress website via shortcodes and widgets. 
+Bring your Review Engine reviews into your WordPress website via shortcodes and widgets.
 
 == Description ==
 
-This plugins allows you to bring Review Engine reviews into your WordPress site via shortcodes and widget. 
+This plugins allows you to bring Review Engine reviews into your WordPress site via shortcodes and widget.
 
 You **must** have a Review Engine *lite* or *paid* account to use this plugin.
 
