@@ -37,7 +37,7 @@
 		${$key}	= !empty( $var ) ? "&$val=$var" : '';
 	}
 
-	$_url		= rbd_core_url( true );
+	$_url		= rbd_core_url( true, $url );
 	$_query		= $threshold . $perpage . $service . $location . $employee;
 	$_id		= $args['widget_id'];
 	$_var		= ${$args['widget_id']};
@@ -78,8 +78,14 @@
 								$_more			= strlen( $review->content ) > $characters ? "<div class='_readmore center'>
 																									<a href='{$review->url}' target='_blank' class='$button_classes center' data-attr='Read More'><span class='_label'>Read More</span>$arrow</a>
 																								</div>" : '';
-
-								$_author		= $hide_reviewer == true ? "" : "<span class='reviewer'> - <span><em>{$review->review_meta->reviewer->display_name}</em></span></span>";
+								if( defined( 'RBD_HIPAA_COMPLIANCE' ) ){
+									$_author		= $hide_reviewer == true ? '' : "<br /><br /><span class='reviewer'><span><em class='tooltip' data-tooltip='Removed for HIPAA compliance.'>Anonymous</em></span></span>";
+									$_gravatar		= false;
+								} else {
+									$_gravatar		= $hide_gravatar == true ? @file_get_contents( 'http://www.gravatar.com/avatar/' . md5( strtolower( trim( $review->review_meta->reviewer->reviewer_email ) ) ) . '?d=404&s=32') : @file_get_contents( 'http://www.gravatar.com/avatar/' . md5( strtolower( trim( $review->review_meta->reviewer->reviewer_email ) ) ) . '?d=404&s=32');
+									$gravatar		= 'http://www.gravatar.com/avatar/' . md5( strtolower( trim( $review->review_meta->reviewer->reviewer_email ) ) ) . '?d=mm&s=70';
+									$_author		= $hide_reviewer == true ? "" : "<span class='reviewer'> - <span><em>{$review->review_meta->reviewer->display_name}</em></span></span>";
+								}
 
 
 								$_stars			= "<div class='review-stars center'>
@@ -99,6 +105,11 @@
 
 								<li class="review-wrap review" style="list-style-type: none;">
 									<div>
+										<?php if($_gravatar != false) { ?>
+											<div class="gravatar">
+												<img src="<?php print( $gravatar ); ?>" />
+											</div>
+										<?php } ?>
 										<h5 class="review-title"><strong><?php echo $_title; ?></strong></h5>
 										<p class="review-content"><?php echo $content ?></p>
 										<div class="synopsis center">

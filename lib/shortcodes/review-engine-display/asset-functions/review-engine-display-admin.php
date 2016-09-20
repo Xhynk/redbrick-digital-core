@@ -19,6 +19,7 @@
 							<h2 class="m-0 p-b-xl">Insert Review Engine Shortcode<a href="#" id="rbd-re-popup-close"><div class="tb-close-icon"></div></a></h2>
 						</div>
 						<div class="form-fields container p-sq-xxl p-t-xl p-b-xl">
+							<?php rbd_core_hipaa_warning(); ?>
 							<div class="row input-container m-b-md">
 								<div class="six columns">
 									<label for="url">
@@ -130,19 +131,25 @@
 									</label>
 								</div>
 								<div class="four columns">
+									<label for="hide-gravatar">
+										<input type="checkbox" name="hide-gravatar" id="hide-gravatar" class="wp-core-ui widefat" value="true" />
+										<span>Hide Gravatar?</span>
+									</label>
+								</div>
+								<div class="four columns">
 									<label for="hide-date">
 										<input type="checkbox" name="hide-date" id="hide-date" class="wp-core-ui widefat" value="true" />
 										<span>Hide Date?</span>
 									</label>
 								</div>
+							</div>
+							<div class="row input-container m-b-md">
 								<div class="four columns" style="color: #bbb;">
 									<label for="hide-city-state">
 										<input type="checkbox" disabled="disabled" name="hide-city-state" id="hide-city-state" class="wp-core-ui widefat" value="true" />
 										<span>Hide City?</span>
 									</label>
 								</div>
-							</div>
-							<div class="row input-container m-b-md">
 								<div class="four columns" style="color: #bbb;">
 									<label for="hide-location">
 										<input type="checkbox" disabled="disabled" name="hide-location" id="hide-location" class="wp-core-ui widefat" value="true" />
@@ -155,6 +162,8 @@
 										<span>Hide Staff?</span>
 									</label>
 								</div>
+							</div>
+							<div class="row input-container">
 								<div class="four columns" style="color: #bbb;">
 									<label for="hide-category">
 										<input type="checkbox" disabled="disabled" name="hide-category" id="hide-category" class="wp-core-ui widefat" value="true" />

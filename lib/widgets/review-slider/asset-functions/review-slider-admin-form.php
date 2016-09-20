@@ -21,6 +21,9 @@
 	// Widget admin form
 	?>
 	<div class="rbd-core-ui-admin">
+		<p>
+			<?php rbd_core_hipaa_warning(); ?>
+		</p>
 		<p style="<?php echo "$half $left $ib $mb"; ?>">
 			<strong><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?></label></strong>
 			<input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr($title); ?>" />
@@ -95,15 +98,19 @@
 					</select>
 			<?php }
 		?>
-		<p style="<?php echo "$third $left $ib"; ?>">
+		<p style="<?php echo "$third $left $ib $mb"; ?>">
 			<input type="checkbox" id="<?php echo $this->get_field_id( 'hide_reviewer' ); ?>" name="<?php echo $this->get_field_name( 'hide_reviewer' ); ?>" value="true" <?php if($hide_reviewer == true){ echo 'checked="checked"'; } ?> />
 			<strong><label style="<?php echo "$cl"; ?>" for="<?php echo $this->get_field_id( 'hide_reviewer' ); ?>"><?php _e( 'Hide Reviewer' ); ?></label></strong>
 		</p>
-		<p style="<?php echo "$third $center $ib"; ?>">
+		<p style="<?php echo "$third $center $ib $mb"; ?>">
 			<input type="checkbox" id="<?php echo $this->get_field_id( 'hide_meta' ); ?>" name="<?php echo $this->get_field_name( 'hide_meta' ); ?>" value="true" <?php if($hide_meta == true){ echo 'checked="checked"'; } ?> />
 			<strong><label style="<?php echo "$cl"; ?>" for="<?php echo $this->get_field_id( 'hide_meta' ); ?>"><?php _e( 'Hide Meta' ); ?></label></strong>
 		</p>
-		<p style="<?php echo "$third $right $ib"; ?>">
+		<p style="<?php echo "$third $right $ib $mb"; ?>">
+			<input type="checkbox" id="<?php echo $this->get_field_id( 'hide_gravatar' ); ?>" name="<?php echo $this->get_field_name( 'hide_gravatar' ); ?>" value="true" <?php if($hide_gravatar == true){ echo 'checked="checked"'; } ?> />
+			<strong><label style="<?php echo "$cl"; ?>" for="<?php echo $this->get_field_id( 'hide_gravatar' ); ?>"><?php _e( 'Hide Gravatar' ); ?></label></strong>
+		</p>
+		<p style="<?php echo "$third $left $ib"; ?>">
 			<input type="checkbox" id="<?php echo $this->get_field_id( 'disable_css' ); ?>" name="<?php echo $this->get_field_name( 'disable_css' ); ?>" value="true" <?php if($disable_css == true){ echo 'checked="checked"'; } ?> />
 			<strong><label style="<?php echo "$cl"; ?>" for="<?php echo $this->get_field_id( 'disable_css' ); ?>"><?php _e( 'Disable CSS' ); ?></label></strong>
 		</p>

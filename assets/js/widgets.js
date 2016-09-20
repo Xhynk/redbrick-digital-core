@@ -14,8 +14,11 @@ jQuery(document).ready(function($){
 	$unslider.each(function(){
 		$(this).on('mouseover', function() {
 			$(this).unslider('stop');
+			$('.unslider-progress-bar-fill').animate({ width: '0%' }, 0);
 		}).on('mouseout', function() {
 			$(this).unslider('start');
+			$('.unslider-progress-bar-fill').animate({ width: '100%' }, 10000);
 		});
+		$('.unslider-progress-bar-fill').animate({ width: '100%' }, 10000);
 	});
 });

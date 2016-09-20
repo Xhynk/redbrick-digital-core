@@ -3,7 +3,7 @@ Contributors: RedbrickDigital
 Tags: Review Engine
 Requires at least: 3.5.1
 Tested up to: 4.6.1
-Stable tag: 0.9.3.3
+Stable tag: 0.9.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -32,10 +32,19 @@ You **must** have a Review Engine *lite* or *paid* account to use this plugin.
 
 "**I don't see the shortcode button or widget, where are they?**"
 
-Make sure you've put your Review Engine URL into the *RBD Core* admin page!
+Make sure you've put a Review Engine URL into the *RBD Core* admin page!
 
 
 == Changelog ==
+
+= 0.9.4 =
+* Finalized removal of Schema to comply with Google's standards.
+* Enabled Gravatars on reviews by default, if applicable.
+* Added the started phase of a HIPAA Compliant mode. This mode forcefully removes Gravatars and replaces names with "Anonymous" and includes a simple pop-up on hover explaining it's for HIPAA Compliance.
+
+= 0.9.3.3 =
+* Minor modifications to layouts.
+* Removed Schema to comply with Google's new standards of marking up Third Party Reviews.
 
 = 0.9.3.2 =
 * Changed Box-Sizing to allow proper column layouts in Cutestrap.
@@ -88,6 +97,12 @@ Make sure you've put your Review Engine URL into the *RBD Core* admin page!
 * Unlocked more options in the Shortcode and Widget
 
 = Upgrade Notice =
+
+= 0.9.4 =
+* Upgrade to latest version is urgent and strongly advised.
+
+= 0.9.3.3 =
+* Please upgrade to the latest version.
 
 = 0.9.3.2 =
 * Please upgrade to the latest version.

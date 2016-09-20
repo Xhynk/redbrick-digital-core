@@ -19,6 +19,7 @@
 	*/
 	function rbd_core_review_slider_options_array(){
 		$array = array(
+			'url'					=> get_option( 'rbd_core_review_engine_url' ),
 			'title'					=> 'Our Reviews',
 			'perpage'				=> 10,
 			'service'				=> '',
@@ -30,6 +31,7 @@
 			'disable_css'			=> false,
 			'slider_speed'			=> 101,
 			'hide_reviewer'			=> false,
+			'hide_progress'			=> false,
 			'character_count'		=> 155,
 		);
 

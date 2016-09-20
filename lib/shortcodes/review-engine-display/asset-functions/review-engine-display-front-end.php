@@ -15,6 +15,7 @@
 
 		# Decode Non-Query Shortcode Parameters
 		$decoded_attr = array (
+			'url',
 			'title',
 			'columns',
 			'category',
@@ -50,7 +51,7 @@
 		}
 
 		# Turn API Query from shortcode into a transient saved object
-		$_url		= rbd_core_url( true );
+		$_url		= rbd_core_url( true, $url );
 		$_key		= get_the_ID();
 		$_salt		= "rbd_core_shortcode_review_engine_display-$_key";
 		$api_url	= $_url . $threshold . $reviews_per_page . $service . $location . $employee;
@@ -65,7 +66,7 @@
 		$count = $row = 0;
 
 		$arrow			= ' <i class="fa fa-angle-right"></i>';
-		$link			= rbd_core_url();
+		$link			= rbd_core_url( false, $url );
 		$button_classes = ( $disable_css == true ) ? 'button button-primary btn read-more' : 'rbd-button';
 
 		# Define Snips of HTML
@@ -105,8 +106,7 @@
 
 										$_stars		= "<span class='review-stars'>
 															<span>
-																<span class='star'>$_good</span>
-																<span class='dark-star'>$_bad</span>
+																<span class='star'>$_good<span class='dark-star'>$_bad</span></span>
 															</span>
 														</span>";
 
@@ -119,15 +119,28 @@
 
 										$meta_date	= ( $hide_date == true ) ? "" : " on <strong>{$review->review_meta->review_date->date}</strong>";
 
-										$meta_name	= ( $hide_reviewer == true ) ? "" : " by <strong><span>{$review->review_meta->reviewer->display_name}</span></strong>";
+										if( defined( 'RBD_HIPAA_COMPLIANCE' ) ){
+											$meta_name	= ( $hide_reviewer == true ) ? "" : " by <strong><span class='tooltip' data-tooltip='Removed for HIPAA compliance.'>Anonymous</span></strong>";
+											$_gravatar	= false;
+										} else {
+											$_gravatar		= $hide_gravatar == true ? @file_get_contents( 'http://www.gravatar.com/avatar/' . md5( strtolower( trim( $review->review_meta->reviewer->reviewer_email ) ) ) . '?d=404&s=32') : @file_get_contents( 'http://www.gravatar.com/avatar/' . md5( strtolower( trim( $review->review_meta->reviewer->reviewer_email ) ) ) . '?d=404&s=32');
+											$gravatar		= 'http://www.gravatar.com/avatar/' . md5( strtolower( trim( $review->review_meta->reviewer->reviewer_email ) ) ) . '?d=mm&s=56';
+											$meta_name	= ( $hide_reviewer == true ) ? "" : " by <strong><span>{$review->review_meta->reviewer->display_name}</span></strong>";
+										}
 
 										$meta		= ( $hide_date == true || $hide_reviewer == true ) ? $meta_name.$meta_date
 																									: '<p class="_meta">Reviewed'. $meta_name . $meta_date .'</p>';
 									?>
 									<div class="<?php echo $classes; ?>" data-attr="<?php echo $count; ?>">
+										<?php if($_gravatar != false) { ?>
+											<div class="gravatar">
+												<img src="<?php print( $gravatar ); ?>" />
+											</div>
+										<?php } ?>
 										<p class="_title"><?php echo $review->title; ?></p>
 										<?php
 											echo $meta;
+											echo '<div style="clear:both;"></div>';
 											echo $content;
 										?>
 									</div>

@@ -10,6 +10,7 @@ function rbd_core_settings_menu_item() {
 function rbd_core_settings_on_init() {
     $rbd_settings_group = 'rbd-core-settings-group';
     $rbd_settings_array = array(
+		'rbd_core_hipaa_compliance',
         'rbd_core_review_engine_url'
     );
 
@@ -26,12 +27,19 @@ function rbd_core_settings_page() {
             <?php settings_fields( $rbd_settings_group ); ?>
             <?php do_settings_sections( $rbd_settings_group ); ?>
             <table class="form-table">
-                <tr valign="top">
+				<tr valign="top">
                     <th scope="row">Review Engine URL:</th>
                     <td>
                         <input class="regular-text" type="text" name="rbd_core_review_engine_url" value="<?php echo esc_attr( get_option('rbd_core_review_engine_url') ); ?>" />
                         <p class="description">This field verifies access to Review Engines. You can change the URL in Widgets and Shortcodes as needed. <br />If you don't have a review engine, please contact your account representative.</p>
                     </td>
+					<tr valign="top">
+	                    <th scope="row">Enable HIPAA Compliance Mode:</th>
+	                    <td>
+							<?php $hipaa = get_option('rbd_core_hipaa_compliance'); ?>
+	                        <input type="checkbox" name="rbd_core_hipaa_compliance" <?php if( $hipaa == true ){ echo 'checked="checked"'; } ?> />
+	                        <p class="description">This field forces Shortcodes and Widgets to comply with HIPAA's guidelines and helps prevent sharing sensitive information, including reviewer names and "Gravatars".</p>
+	                    </td>
                 </tr>
             </table>
             <?php submit_button(); ?>

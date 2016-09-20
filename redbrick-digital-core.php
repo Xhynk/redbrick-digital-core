@@ -11,7 +11,7 @@
 	 * @wordpress-plugin
 	 * Plugin Name: Redbrick Digital Core
 	 * Description: This plugin enables Redbrick Digital Core usage, including the Review Engine Display shortcode, Review Slider widget, and Social Proof widget.
-	 * Version:     0.9.3.3
+	 * Version:     0.9.4
 	 * Author:      RedbrickDigital.net
 	 * Text Domain: rbd-core
 	 * License:     GPL-2.0+
@@ -146,6 +146,27 @@
 		}
 	}
 
+	/**
+	 * Delete Transients Attached to Pages
+	 *
+	 * @since 0.9.3.4
+	 *
+	 * @internal { Shortcodes on pages that made transients were getting stuck
+  	 *	until expiration. This should fix that so they update when updated. }
+	*/
+	add_action( 'save_post', 'rbd_core_reset_post_transients' );
+	function rbd_core_reset_post_transients( $post_id ){
+		$shortcode_pre_salts = array(
+			'rbd_core_shortcode_review_engine_display'
+		);
+
+		foreach( $shortcode_pre_salts as $pre_salt ){
+			$salt = "$pre_salt-$post_id";
+
+			delete_transient( $salt );
+		}
+	}
+
 	##        (\ /)
 	##       ( . .) ♥ ~< Code Block - B: Larger Scope Functions >
 	##       c(”)(”)
@@ -181,20 +202,24 @@
 	 *
 	 * @since 0.8.3
 	 *
+	 * @version 2.0 since 0.9.3.4, added alternate URL option.
+	 *
 	 * @internal { I have to `str_replace` the URL sooo freaking much. I turned
   	 *	it into it's own function so I don't have to double function each string. }
 	 *
 	 * @param Optional: Type. Boolean. Indicates request for URL or API URL,
 	 * otherwise returns standard URL.
+	 * @param Options: Alternat URL. String. Request an alternate URL than the
+	 * one provided in RBD Core Admin Settings page.
 	 *
 	 * @return A reconstructed URL so there's no fragment or missing protocol.
 	 *
 	 * @example rbd_core_url() = engine url, rbd_core_url(true) = engine URL
 	 *	with API key string attached, add more parameters to the end.
 	*/
-	function rbd_core_url( $optional = false ){
+	function rbd_core_url( $optional = false, $alternate_url = '' ){
 		# Force http:// and get the URL
-		$url		= get_option( 'rbd_core_review_engine_url' );
+		$url		= $alternate_url == '' ? get_option( 'rbd_core_review_engine_url' ) : $alternate_url;
 		$protocol	= 'http://';
 		$_mod_url	= str_replace( array( 'http://', 'https://' ), '', $url );
 		$_api_url	= '/reviews-api-v2/';
@@ -209,6 +234,34 @@
 	 	 *	client adds it for some reason, and replaced with http:// }
 		*/
 		return ( $optional == true ) ? $_new_url.$_api_url.$_api_ver.$_api_usr.$_api_key : $_new_url;
+	}
+
+	/**
+	 * Determine if HIPAA Compliance is Requested.
+	 *
+	 * @since 0.9.3.4
+	 *
+	 * @internal { We'll check if a constant is defined, and overwrite Variables
+	 *	as we go if it's true. }
+	*/
+	if( get_option( 'rbd_core_hipaa_compliance' ) == true ){
+		define( 'RBD_HIPAA_COMPLIANCE', true );
+	}
+
+	/**
+	 * Issue Warning if HIPAA Mode is enabled in some Admin Areas
+	 *
+	 * @since 0.9.3.4
+	 *
+	 * @internal { At this time, I'm not 'blocking' options, just letting the
+ 	 *	user know some things will be removed from the front end. }
+	*/
+	function rbd_core_hipaa_warning(){
+		if( defined( 'RBD_HIPAA_COMPLIANCE' ) ) {
+			echo '<div style="background: #f8f8f8; padding: 1px 30px; border-left: 4px solid #dc3232; box-shadow: 0 2px 2px rgba(0,0,0,.15); margin-bottom: 15px;">
+						<p><strong>HIPAA Compliance Enabled:</strong> Personally identifying information will be removed from reviews. To change this setting, go <a href="'. admin_url() .'admin.php?page=redbrick-digital-core/admin/admin-core.php">here</a>.</p>
+					</div>';
+		}
 	}
 
 	/**
