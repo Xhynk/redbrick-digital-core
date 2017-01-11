@@ -1,4 +1,4 @@
-<?php
+w<?php
 	$array = rbd_core_review_slider_options_array();
 	foreach( $array as $var => $default_value){
 		${$var} = isset( $instance[$var] ) ? $instance[$var] : $default_value;
@@ -6,17 +6,19 @@
 
 	$pre_data = rbd_core_api_call();
 
-	$mb		= 'margin-bottom: 1em;';
-	$tl		= 'text-align: left;';
-	$tr		= 'text-align: right;';
-	$tc		= 'text-align: center;';
-	$ib		= 'display: inline-block;';
-	$cl		= 'padding-left: 10px; margin-left: -7px;';
-	$half	= 'width: 47.5%;';
-	$third	= 'width: 30%;';
-	$left	= 'margin: 0 -4px 0 0;';
-	$right	= 'margin: 0 0 0 5%;';
-	$center	= 'margin: 0 -4px 0 5%;';
+	$mb			= 'margin-bottom: 1em;';
+	$tl			= 'text-align: left;';
+	$tr			= 'text-align: right;';
+	$tc			= 'text-align: center;';
+	$ib			= 'display: inline-block;';
+	$cl			= 'padding-left: 10px; margin-left: -7px;';
+	$full		= 'width: 100%; margin: 0;';
+	$half		= 'width: 47.5%;';
+	$third		= 'width: 30%;';
+	$left		= 'margin: 0 -4px 0 0;';
+	$right		= 'margin: 0 0 0 5%;';
+	$center		= 'margin: 0 -4px 0 5%;';
+	$twothirds	= 'width: 65%;';
 
 	// Widget admin form
 	?>
@@ -98,6 +100,14 @@
 					</select>
 			<?php }
 		?>
+		<p style="<?php echo "$full $ib $mb"; ?>">
+			<strong><label for="<?php echo $this->get_field_id( 'theme' ); ?>"><?php _e( 'Choose a Theme:' ); ?></label></strong>
+			<select class="widefat" id="<?php echo $this->get_field_id( 'theme' ); ?>" name="<?php echo $this->get_field_name( 'theme' ); ?>">
+				<option <?php if( $theme == 'default' ){ echo 'selected="selected"'; } ?> value="default">Default</option>
+				<option <?php if( $theme == 'alternate' ){ echo 'selected="selected"'; } ?> value="alternate">Alternate</option>
+				<!--<option <?php if( $theme == 'jive' ){ echo 'selected="selected"'; } ?> value="jive">Jive</option>-->
+			</select>
+		</p>
 		<p style="<?php echo "$third $left $ib $mb"; ?>">
 			<input type="checkbox" id="<?php echo $this->get_field_id( 'hide_reviewer' ); ?>" name="<?php echo $this->get_field_name( 'hide_reviewer' ); ?>" value="true" <?php if($hide_reviewer == true){ echo 'checked="checked"'; } ?> />
 			<strong><label style="<?php echo "$cl"; ?>" for="<?php echo $this->get_field_id( 'hide_reviewer' ); ?>"><?php _e( 'Hide Reviewer' ); ?></label></strong>
@@ -110,7 +120,7 @@
 			<input type="checkbox" id="<?php echo $this->get_field_id( 'hide_gravatar' ); ?>" name="<?php echo $this->get_field_name( 'hide_gravatar' ); ?>" value="true" <?php if($hide_gravatar == true){ echo 'checked="checked"'; } ?> />
 			<strong><label style="<?php echo "$cl"; ?>" for="<?php echo $this->get_field_id( 'hide_gravatar' ); ?>"><?php _e( 'Hide Gravatar' ); ?></label></strong>
 		</p>
-		<p style="<?php echo "$third $left $ib"; ?>">
+		<p style="<?php echo "$third $left $ib $mb"; ?>">
 			<input type="checkbox" id="<?php echo $this->get_field_id( 'disable_css' ); ?>" name="<?php echo $this->get_field_name( 'disable_css' ); ?>" value="true" <?php if($disable_css == true){ echo 'checked="checked"'; } ?> />
 			<strong><label style="<?php echo "$cl"; ?>" for="<?php echo $this->get_field_id( 'disable_css' ); ?>"><?php _e( 'Disable CSS' ); ?></label></strong>
 		</p>

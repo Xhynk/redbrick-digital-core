@@ -20,6 +20,7 @@
 	function rbd_core_review_slider_options_array(){
 		$array = array(
 			'url'					=> get_option( 'rbd_core_review_engine_url' ),
+			'theme'					=> 'default',
 			'title'					=> 'Our Reviews',
 			'perpage'				=> 10,
 			'service'				=> '',
@@ -61,9 +62,16 @@
 		 * Include Front-End Parsing
 		 *
 		 * @since 0.8.9
+		 * @version 2.0 - Added Themes
 		*/
 		public function widget( $args, $instance ) {
-			include( plugin_dir_path( __FILE__ ) . 'asset-functions/review-slider-front-end.php' );
+			$dir		= plugin_dir_path( __FILE__ ) . 'asset-functions/themes/';
+			$str		= 'review-slider-';
+			$ext		= '.php';
+
+			$theme		= $instance['theme'] == '' ? 'default' : $instance['theme'];
+
+			include( $dir.$str.$theme.$ext );
 		}
 
 		/**

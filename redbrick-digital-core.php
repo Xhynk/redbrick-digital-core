@@ -11,7 +11,7 @@
 	 * @wordpress-plugin
 	 * Plugin Name: Redbrick Digital Core
 	 * Description: This plugin enables Redbrick Digital Core usage, including the Review Engine Display shortcode, Review Slider widget, and Social Proof widget.
-	 * Version:     0.9.4
+	 * Version:     0.9.5
 	 * Author:      RedbrickDigital.net
 	 * Text Domain: rbd-core
 	 * License:     GPL-2.0+
@@ -87,7 +87,7 @@
 		);
 
 		foreach( $admin_pages as $admin_page ){
-			include_once( plugin_dir_path( __FILE__ ) . 'admin/admin-core.php' );
+			include_once( plugin_dir_path( __FILE__ ) . 'admin/admin-'. $admin_page .'.php' );
 		}
 	}
 
@@ -110,10 +110,7 @@
 		);
 
 		# If Review Engine URL Exists
-		/**
-		 * @TODO: Check if this is a real URL via an API calls
-		*/
-		if( get_option( 'rbd_core_review_engine_url' ) ){
+		if( rbd_core_verify() == true ){
 			foreach( $widgets as $widget ){
 				include( plugin_dir_path( __FILE__ ) . "lib/widgets/$widget/widget-$widget.php" );
 			}
@@ -139,7 +136,7 @@
 		/**
 		 * @TODO: Check if this is a real URL via an API calls
 		*/
-		if( get_option( 'rbd_core_review_engine_url' ) ){
+		if( rbd_core_verify() == true ){
 			foreach( $shortcodes as $shortcode ){
 				include( plugin_dir_path( __FILE__ ) . "lib/shortcodes/$shortcode/shortcode-$shortcode.php" );
 			}
@@ -273,7 +270,7 @@
 	 *	Review Engine. Such as getting a list of Service Categories they have
 	 *	so we can build a dropdown menu of them for selection. }
 	 *
-	 * @uses rbd_core_url() - Returns Review Engine URL w/ or w/o API string.
+	 * @uses rbd_core_url() - Returns Review Engine URL w/ or w/o API string.o
 	 * @return Object from basic API Call
 	 * @example @see `/lib/shortcodes/review-engine-display/shortcode-review-engine-display.php`
 	*/
@@ -282,7 +279,7 @@
 		$api_url = rbd_core_url( true ) .'&reviews_per_page=1';
 
 		# Check for `rbd_core_api_call`, set and use if doesn't exist
-		if ( false === ( $rbd_core_api_call = get_transient( 'rbd_core_api_call' ) ) ) {
+		if( false === ( $rbd_core_api_call = get_transient( 'rbd_core_api_call' ) ) ) {
 			$rbd_core_api_call = rbd_core_file_get_contents_curl( $api_url );
 			set_transient( 'rbd_core_api_call', $rbd_core_api_call, 86400 );
 		}
@@ -301,12 +298,30 @@
 	 * @example @see `/lib/widgets/social-proof/widget-social-proof.php`
 	*/
 	function rbd_core_colorize( $color ){
-		# Force http:// and get the URL
+		# Force http:// and get the URL, we don't use SSL currently.
 		$_symbol	= '#';
 		$_replace	= str_replace( $_symbol, '', $color );
 		$_css_ready	= $_symbol . $_replace;
 
 		return $_css_ready;
+	}
+
+	/**
+	 * Verification
+	 * @since 0.9.5
+	 *
+	 * @internal { I've wanted the URL in the admin pages to be a verification since
+ 	 *	the beginning, because the plugin is technically public now. }
+	*/
+	function rbd_core_verify(){
+		// If URL has a value and the RBD_CORE_VALID validifier is false
+		if( get_option( 'rbd_core_review_engine_url' ) != '' && get_option( 'RBD_CORE_VALID' ) == false ){	// This isn't good.
+			return false;
+		} else if( get_option( 'rbd_core_review_engine_url' ) != '' && get_option( 'RBD_CORE_VALID' ) == true ){	// This IS good. Non-empty and true!
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	/**
@@ -327,7 +342,11 @@
 
 				echo '<h2 style="width: 100%; clear: both; background: #e4e4e4; padding: 10px 20px; margin: 0; border: 1px solid #aaa; border-left-width: 10px; border-bottom: 0;">Redbrick Digital Core: Debug Error Output:</h2>';
 				echo '<div style="width: 100%; clear: both; float: left; background: #f8f8f8; color: #333; border: 1px solid #aa0000; border-left-width: 10px; padding: 10px 20px; font-size: 16px;">';
-					print_r( $api_object );
+					if( $_url ){
+						print_r( $api_object );
+					} else {
+						echo 'Please send a Review Engine URL as a GET request: &url=client.site.com';
+					}
 				echo '</div>';
 			} else if( $_GET['debug'] == 'transient' ){
 				$_url		= $_GET['url'];

@@ -19,8 +19,10 @@
 	*/
 	function rbd_core_social_proof_options_array(){
 		$array = array(
+			'url'			=> rbd_core_url(),
+			'theme'			=> 'detailed',
 			'font_color'	=> '',
-			'text_align'	=> 'left'
+			'text_align'	=> 'left',
 		);
 
 		return $array;
@@ -49,9 +51,16 @@
 		 * Include Front-End Parsing
 		 *
 		 * @since 0.8.9
+		 * @version 2.0 - Added Themes
 		*/
 		public function widget( $args, $instance ) {
-			include( plugin_dir_path( __FILE__ ) . 'asset-functions/social-proof-front-end.php' );
+			$dir		= plugin_dir_path( __FILE__ ) . 'asset-functions/themes/';
+			$str		= 'social-proof-';
+			$ext		= '.php';
+
+			$theme		= $instance['theme'] == '' ? 'detailed' : $instance['theme'];
+
+			include( $dir.$str.$theme.$ext );
 		}
 
 		/**

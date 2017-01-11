@@ -19,8 +19,16 @@
 				<option <?php if($text_align == 'right'){	echo 'selected="selected"'; } ?> value="right">Right</option>
 			</select>
 		</p> */ ?>
-		<p>
+		<div style="width: 47.5%; display: inline-block;">
+			<strong><label for="<?php echo $this->get_field_id( 'theme'); ?>"><?php _e( 'Theme:' ); ?></label></strong><br />
+			<select class="widefat" id="<?php echo $this->get_field_id( 'theme' ); ?>" name="<?php echo $this->get_field_name( 'theme' ); ?>">
+				<option <?php if( $theme == 'detailed' ){ echo 'selected="selected"'; } ?> value="detailed">Detailed</option>
+				<option <?php if( $theme == 'minimal' ){ echo 'selected="selected"'; } ?> value="minimal">Minimal</option>
+			</select>
+		</div>
+		<div style="width: 47.5%; display: inline-block; float: right;">
 			<strong><label for="<?php echo $this->get_field_id( 'font_color' ); ?>"><?php _e( 'Font Color:' ); ?></label></strong><br />
 			<input class="widefat color-picker" id="<?php echo $this->get_field_id( 'font_color' ); ?>" name="<?php echo $this->get_field_name( 'font_color' ); ?>" type="text" value="<?php echo esc_attr( $font_color ); ?>" />
-		</p>
+		</div>
+		<div style="clear: both; margin-bottom: 15px;"></div>
 	</div>

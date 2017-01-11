@@ -32,6 +32,10 @@
 	position: relative;
 }
 
+.rbd-core-ui.rbd-review-slider-alternate .review-stars {
+	margin-right: 12px;
+}
+
 .rbd-core-ui .star,
 .rbd-core-ui .dark-star {
 	font-size: 24px;
@@ -40,6 +44,11 @@
 .rbd-core-ui .star.medium,
 .rbd-core-ui .dark-star.medium {
 	font-size: 32px;
+}
+
+.rbd-core-ui .star.inline-star,
+.rbd-core-ui .dark-star.inline-star {
+	font-size: 25px;
 }
 
 .rbd-core-ui .star {
@@ -190,6 +199,27 @@
     margin-right: 15px;
 }
 
+.rbd-review-slider-alternate .gravatar {
+	float: none;
+}
+
+.rbd-core-ui .gravatar img {
+    max-width: 46px;
+	border-radius: 100%;
+}
+
+.rbd-review-slider-alternate ._readmore {
+	margin: 6px 0 20px;
+}
+
+.rbd-review-slider-alternate .gravatar img {
+	max-width: 56px;
+}
+
+.rbd-review-slider .reviewer.has-gravatar {
+    top: -22px;
+}
+
 .rbd-review-slider .review-title {
 	font-size: 110%;
 	margin-bottom: 8px;
@@ -240,9 +270,20 @@
 	top: -.75rem;
 }
 
+.rbd-reviews-social-proof.minimal .meta {
+	top: -2px;
+	top: -.2rem;
+}
+
 .rbd-reviews-social-proof .trim {
 	overflow: hidden;
 	white-space: nowrap;
+}
+
+.rbd-reviews-social-proof.minimal .star,
+.rbd-reviews-social-proof.minimal .dark-star {
+	/* Larger Stars on the Minimal Theme */
+	font-size: 32px;
 }
 
 /* Cards */

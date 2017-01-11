@@ -19,7 +19,7 @@
 	*/
 	add_action( 'media_buttons', 'rbd_core_add_shortcode_button', 25 );
 	function rbd_core_add_shortcode_button(){
-		if( get_option( 'rbd_core_review_engine_url' ) ){
+		if( rbd_core_verify() == true ){
 			$type	= 'button';
 			$class	= "$type insert-review-engine-display add_review_engine";
 			$icon	= '<span class="wp-media-buttons-icon"></span>';
