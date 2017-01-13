@@ -72,13 +72,14 @@
 
 		# Define Snips of HTML
 		/* TODO: Make the Write a Review button have a pop-up version of the review form. Look at `http://codepen.io/creativetim/pen/EgVBXa` for inspiration. */
-		$title		= ( $title == '' ) ? '' : "<h2 class='re-display-title'>$title</h2>";
-		$overview	= ( $hide_overview == true ) ? '' : "
+		$write_review_url	= rbd_core_write_a_review_url( $api_object->data[0]->review_engine_url );
+		$title				= ( $title == '' ) ? '' : "<h2 class='re-display-title'>$title</h2>";
+		$overview			= ( $hide_overview == true ) ? '' : "
 			<div class='re-header'>
 				<h3 class='overview dib'>
 					<span class='aggregate'><strong>{$api_object->data[0]->aggregate}</strong></span><span class='star'>★</span>/<strong>5</strong> based on <strong><span class='review-count'>{$api_object->data[0]->total_reviews}</span> reviews</strong>
 				</h3>
-				<a style='position: relative; top: -3px;' class='dib write-review big $button_classes' target='_blank' href='{$api_object->data[0]->review_engine_url}'><span class='_label'>Write a Review</span>$arrow</a>
+				<a style='position: relative; top: -3px;' class='dib write-review big $button_classes' target='_blank' href='$write_review_url'><span class='_label'>Write a Review</span>$arrow</a>
 			</div>";
 
 			ob_start(); ?>
@@ -124,8 +125,8 @@
 											$meta_name	= ( $hide_reviewer == true ) ? "" : " by <strong><span class='tooltip' data-tooltip='Removed for HIPAA compliance.'>Anonymous</span></strong>";
 											$_gravatar	= false;
 										} else {
-											$_gravatar		= $hide_gravatar == true ? @file_get_contents( 'http://www.gravatar.com/avatar/' . md5( strtolower( trim( $review->review_meta->reviewer->reviewer_email ) ) ) . '?d=404&s=32') : @file_get_contents( 'http://www.gravatar.com/avatar/' . md5( strtolower( trim( $review->review_meta->reviewer->reviewer_email ) ) ) . '?d=404&s=32');
-											$gravatar		= 'http://www.gravatar.com/avatar/' . md5( strtolower( trim( $review->review_meta->reviewer->reviewer_email ) ) ) . '?d=mm&s=56';
+											$_gravatar		= $hide_gravatar == true ? @file_get_contents( 'https://www.gravatar.com/avatar/' . md5( strtolower( trim( $review->review_meta->reviewer->reviewer_email ) ) ) . '?d=404&s=32') : @file_get_contents( 'https://www.gravatar.com/avatar/' . md5( strtolower( trim( $review->review_meta->reviewer->reviewer_email ) ) ) . '?d=404&s=32');
+											$gravatar		= 'https://www.gravatar.com/avatar/' . md5( strtolower( trim( $review->review_meta->reviewer->reviewer_email ) ) ) . '?d=mm&s=56';
 											$meta_name	= ( $hide_reviewer == true ) ? "" : " by <strong><span>{$review->review_meta->reviewer->display_name}</span></strong>";
 										}
 

@@ -11,7 +11,7 @@
 	 * @wordpress-plugin
 	 * Plugin Name: Redbrick Digital Core
 	 * Description: This plugin enables Redbrick Digital Core usage, including the Review Engine Display shortcode, Review Slider widget, and Social Proof widget.
-	 * Version:     0.9.5
+	 * Version:     0.9.6
 	 * Author:      RedbrickDigital.net
 	 * Text Domain: rbd-core
 	 * License:     GPL-2.0+
@@ -322,6 +322,22 @@
 		} else {
 			return false;
 		}
+	}
+
+	/**
+	 * Write A Review Link
+	 * @since 0.9.6
+	 *
+	 * @internal { This used to link straight to the Review Engine's homepage,
+ 	 *	but with the introduction of Review Funnels, people may want to gather
+	 *	reviews that way instead. So this function builds the link. }
+	*/
+	function rbd_core_write_a_review_url( $url ){
+		$write_a_review_url = esc_attr( get_option('rbd_core_review_engine_write_a_review_url') );
+		if( !empty( $write_a_review_url ) )
+			$write_a_review_url = "r/$write_a_review_url";
+
+		return $url.$write_a_review_url;
 	}
 
 	/**

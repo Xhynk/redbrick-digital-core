@@ -11,7 +11,8 @@ function rbd_core_settings_on_init() {
     $rbd_settings_group = 'rbd-core-settings-group';
     $rbd_settings_array = array(
 		'rbd_core_hipaa_compliance',
-        'rbd_core_review_engine_url'
+        'rbd_core_review_engine_url',
+		'rbd_core_review_engine_write_a_review_url'
     );
 
     foreach( $rbd_settings_array as $setting ){
@@ -57,6 +58,38 @@ function rbd_core_settings_page() {
                         <p class="description">Put a Review Engine URL in here. This field verifies access to Review Engines. You can change the URL in Widgets and Shortcodes as needed. <br />If you don't have a review engine, please contact your account representative.</p>
                     </td>
 				</tr>
+				<?php if( $verification_data->data[0]->review_funnels->advanced_review_funnels == true ){ ?>
+					<tr valign="top">
+		                <th scope="row">"Write A Review" Link:</th>
+		                <td>
+							<?php $write_a_review_url = esc_attr( get_option('rbd_core_review_engine_write_a_review_url') ); ?>
+		                    <select name="rbd_core_review_engine_write_a_review_url">
+								<option value="">Default - Leave a Review Form</option>
+								<?php
+									$_write_a_review_url_options = array (
+										'Net Promoter Score'		=>	'nps',
+										'Smile Rating'				=>	'smile-rating',
+										'Star Rating'				=>	'star-rating',
+										'Would You Recommend Us'	=>	'would-you-recommend-us'
+									);
+
+									foreach( $_write_a_review_url_options as $option => $value ){
+										$selected = '';
+
+										if( $write_a_review_url == $value )
+											$selected = 'selected="selected"';
+
+										if( $verification_data->data[0]->review_funnels->selected_review_funnel == $value )
+											$option = "✅ $option";
+
+										echo "<option $selected value='$value'>$option</option>";
+									}
+								?>
+							</select>
+		                    <p class="description">By default, the Write A Review link goes to the main review form. You can pick a Review Funnel here instead.<br />The option denoted with a "✅" is the option you have selected in your Review Engine.</p>
+		                </td>
+		            </tr>
+				<?php } ?>
 				<tr valign="top">
 	                <th scope="row">Enable HIPAA Compliance:</th>
 	                <td>
