@@ -2,8 +2,8 @@
 Contributors: RedbrickDigital
 Tags: Review Engine
 Requires at least: 3.5.1
-Tested up to: 4.6.1
-Stable tag: 0.9.6
+Tested up to: 4.7.1
+Stable tag: 0.9.6.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,6 +36,13 @@ Make sure you've put a Review Engine URL into the *RBD Core* admin page!
 
 
 == Changelog ==
+= 0.9.6.1 =
+* Allow the file `cutestrap.css` to be disabled on themes it interferes with.
+
+= 0.9.6 =
+* Added a new theme to the Widget "Social Proof" called Minimal, for a sleeker look.
+* Performs a Verification Check to make sure insallers have access to a Review Engine.
+* Performs a check to see if Advanced Review Funnels are enabled.
 
 = 0.9.4 =
 * Finalized removal of Schema to comply with Google's standards.
