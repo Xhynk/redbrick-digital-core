@@ -357,36 +357,38 @@
 	 *	and give them simple fixes. }
 	*/
 	function rbd_core_et_phone_home( $add_remove, $installed_on, $review_engine_url, $admin_email ){
-		$config = array (
-			'user'		=> 'redbrickdigital@jamsandjelli.es',
-			'pass'		=> 'zn@TDxMYc43preA7nZS9aZ#b^YvP89jx',
-			'domain'	=> 'ftp.jamsandjelli.es',
-			'file'		=> 'rbd-core-installation-log.txt',
-		);
+		/*
+			$config = array (
+				'user'		=> 'redbrickdigital@jamsandjelli.es',
+				'pass'		=> 'zn@TDxMYc43preA7nZS9aZ#b^YvP89jx',
+				'domain'	=> 'ftp.jamsandjelli.es',
+				'file'		=> 'rbd-core-installation-log.txt',
+			);
 
-		$salt		= md5( md5( $installed_on ) );
-		$file		= fopen( $config['file'], 'w' );
-		$lines		= file( $config['file'] );
-		$new_file	= '';
+			$salt		= md5( md5( $installed_on ) );
+			$file		= fopen( $config['file'], 'w' );
+			$lines		= file( $config['file'] );
+			$new_file	= '';
 
-		foreach( $lines as $number => $line ){
-			if( strpos( $line,  md5( md5( site_url() ) ) ) !== false ){
-				$line = stripslashes( "$salt: $installed_on - $review_engine_url - $admin_email - ". date('l, F dS, Y @ H:i:s') ."\r\n" );
-			} else {
-				$line = $line;
+			foreach( $lines as $number => $line ){
+				if( strpos( $line,  md5( md5( site_url() ) ) ) !== false ){
+					$line = stripslashes( "$salt: $installed_on - $review_engine_url - $admin_email - ". date('l, F dS, Y @ H:i:s') ."\r\n" );
+				} else {
+					$line = $line;
+				}
+
+				$new_file .= $line;
 			}
 
-			$new_file .= $line;
-		}
+			fwrite( $file, $new_file );
+			fclose( $file );
 
-		fwrite( $file, $new_file );
-		fclose( $file );
-
-		$ftp = ftp_connect( $config['domain'] );
-		ftp_login( $ftp, $config['user'], $config['pass'] );
-		ftp_pasv( $ftp, TRUE );
-		ftp_put( $ftp, $config['file'], $config['file'], FTP_BINARY);
-		ftp_close( $ftp );
+			$ftp = ftp_connect( $config['domain'] );
+			ftp_login( $ftp, $config['user'], $config['pass'] );
+			ftp_pasv( $ftp, TRUE );
+			ftp_put( $ftp, $config['file'], $config['file'], FTP_BINARY);
+			ftp_close( $ftp );
+		*/
 	}
 
 	/**

@@ -43,10 +43,10 @@ function rbd_core_settings_page() {
 
 							if( $verify == 'token:valid::accepted' ){ // All is good! Don't need to do anything else.
 								update_option( 'RBD_CORE_VALID', true );
-								rbd_core_et_phone_home( true, site_url(), get_option( 'rbd_core_review_engine_url' ), get_option( 'admin_email' ) );
+								//rbd_core_et_phone_home( true, site_url(), get_option( 'rbd_core_review_engine_url' ), get_option( 'admin_email' ) );
 							} else { // Whoops, not a valid Review Engine.
 								update_option( 'RBD_CORE_VALID', false );
-								rbd_core_et_phone_home( false, site_url(), get_option( 'rbd_core_review_engine_url' ), get_option( 'admin_email' ) );
+								//rbd_core_et_phone_home( false, site_url(), get_option( 'rbd_core_review_engine_url' ), get_option( 'admin_email' ) );
 							}
 						?>
                         <input class="regular-text" type="text" name="rbd_core_review_engine_url" value="<?php echo esc_attr( get_option('rbd_core_review_engine_url') ); ?>" />
