@@ -3,8 +3,7 @@ Contributors: RedbrickDigital
 Tags: Review Engine
 Requires at least: 3.5.1
 Tested up to: 4.7.1
-Stable tag: 0.9.6.1
-License: GPLv2 or later
+Stable tag: 0.9.6.2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Bring your Review Engine reviews into your WordPress website via shortcodes and widgets.
@@ -36,6 +35,9 @@ Make sure you've put a Review Engine URL into the *RBD Core* admin page!
 
 
 == Changelog ==
+= 0.9.6.2 =
+* Verification kept failing for some reason. That has been temporarily disabled.
+
 = 0.9.6.1 =
 * Allow the file `cutestrap.css` to be disabled on themes it interferes with.
 

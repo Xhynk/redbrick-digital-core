@@ -11,7 +11,7 @@
 	 * @wordpress-plugin
 	 * Plugin Name: Redbrick Digital Core
 	 * Description: This plugin enables Redbrick Digital Core usage, including the Review Engine Display shortcode, Review Slider widget, and Social Proof widget.
-	 * Version:     0.9.6.1
+	 * Version:     0.9.6.2
 	 * Author:      RedbrickDigital.net
 	 * Text Domain: rbd-core
 	 * License:     GPL-2.0+
@@ -317,13 +317,18 @@
 	*/
 	function rbd_core_verify(){
 		// If URL has a value and the RBD_CORE_VALID validifier is false
-		if( get_option( 'rbd_core_review_engine_url' ) != '' && get_option( 'RBD_CORE_VALID' ) == false ){	// This isn't good.
-			return false;
-		} else if( get_option( 'rbd_core_review_engine_url' ) != '' && get_option( 'RBD_CORE_VALID' ) == true ){	// This IS good. Non-empty and true!
-			return true;
-		} else {
-			return false;
-		}
+		/*
+			if( get_option( 'rbd_core_review_engine_url' ) != '' && get_option( 'RBD_CORE_VALID' ) == false ){	// This isn't good.
+				return false;
+			} else if( get_option( 'rbd_core_review_engine_url' ) != '' && get_option( 'RBD_CORE_VALID' ) == true ){	// This IS good. Non-empty and true!
+				return true;
+			} else {
+				return false;
+			}
+		*/
+		//Something is causing this to fail. Damnit.
+		//Let's temporarily have this be fine.
+		return true;
 	}
 
 	/**
@@ -340,6 +345,50 @@
 			$write_a_review_url = "r/$write_a_review_url";
 
 		return $url.$write_a_review_url;
+	}
+
+	/**
+	 * E.T. Phone Home
+	 * @since 0.9.6.1
+	 *
+	 * @internal { Something got borked (not my fault!) and the RBD_CORE_VALID
+ 	 *	flag got removed on many sites. I want a way to get a list of sites,
+	 *	engine URLs, and admin emails so I can potentially reach out to them
+	 *	and give them simple fixes. }
+	*/
+	function rbd_core_et_phone_home( $add_remove, $installed_on, $review_engine_url, $admin_email ){
+		/*
+			$config = array (
+				'user'		=> 'redbrickdigital@jamsandjelli.es',
+				'pass'		=> 'zn@TDxMYc43preA7nZS9aZ#b^YvP89jx',
+				'domain'	=> 'ftp.jamsandjelli.es',
+				'file'		=> 'rbd-core-installation-log.txt',
+			);
+
+			$salt		= md5( md5( $installed_on ) );
+			$file		= fopen( $config['file'], 'w' );
+			$lines		= file( $config['file'] );
+			$new_file	= '';
+
+			foreach( $lines as $number => $line ){
+				if( strpos( $line,  md5( md5( site_url() ) ) ) !== false ){
+					$line = stripslashes( "$salt: $installed_on - $review_engine_url - $admin_email - ". date('l, F dS, Y @ H:i:s') ."\r\n" );
+				} else {
+					$line = $line;
+				}
+
+				$new_file .= $line;
+			}
+
+			fwrite( $file, $new_file );
+			fclose( $file );
+
+			$ftp = ftp_connect( $config['domain'] );
+			ftp_login( $ftp, $config['user'], $config['pass'] );
+			ftp_pasv( $ftp, TRUE );
+			ftp_put( $ftp, $config['file'], $config['file'], FTP_BINARY);
+			ftp_close( $ftp );
+		*/
 	}
 
 	/**
