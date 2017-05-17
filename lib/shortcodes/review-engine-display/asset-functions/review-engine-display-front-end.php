@@ -61,7 +61,15 @@
 			$transient = rbd_core_file_get_contents_curl( $api_url );
 			set_transient( $_salt, $transient, 86400 );
 		}
-		$api_object	= json_decode( get_transient( $_salt ) );
+
+		if( get_transient( $_salt ) == '' ){
+			// If the API call was broken, transient will be empty. Delete it, and just make the call now.
+			delete_transient( $_salt );
+			$api_object = json_decode( rbd_core_file_get_contents_curl( $api_url ) );
+		} else {
+			// If the API was successful, transient is good!
+			$api_object = json_decode( get_transient( $_salt ) );
+		}
 
 		# Define Standard Variables
 		$count = $row = 0;

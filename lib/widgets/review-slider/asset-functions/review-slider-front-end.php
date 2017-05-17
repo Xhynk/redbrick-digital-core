@@ -47,7 +47,15 @@
 		$_var = rbd_core_file_get_contents_curl( $api_url );
 		set_transient( $_id, $_var, 86400 );
 	}
-	$api_object = json_decode( get_transient( $_id ) );
+
+	if( get_transient( $_id ) == '' ){
+		// If the API call was broken, transient will be empty. Delete it, and just make the call now.
+		delete_transient( $_id );
+		$api_object = json_decode( rbd_core_file_get_contents_curl( $api_url ) );
+	} else {
+		// If the API was successful, transient is good!
+		$api_object = json_decode( get_transient( $_id ) );
+	}
 
 	# Define Snippets and Preliminary Information
 	$arrow		= ' <i class="fa fa-angle-right"></i>';
