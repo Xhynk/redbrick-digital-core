@@ -14,7 +14,7 @@
 		), $atts ) );
 
 		# Decode Non-Query Shortcode Parameters
-		$decoded_attr = array (
+		$decoded_attr = array(
 			'url',
 			'title',
 			'columns',
@@ -42,8 +42,8 @@
 			'employee'			=> 'employee',
 			'location'			=> 'location',
 			'threshold'			=> 'threshold',
+			'reviews_per_page'  => 'reviews_per_page',
 			'perpage'			=> 'reviews_per_page',
-			'reviews_per_page'	=> 'reviews_per_page',
 		);
 
 		foreach( $query_params as $key => $val ){
@@ -53,9 +53,9 @@
 		# Turn API Query from shortcode into a transient saved object
 		$_url		= rbd_core_url( true, $url );
 		$_key		= get_the_ID();
-		$_site		= site_url();
+		$_site		= str_replace( '/', '-', str_replace( array( 'https://', 'http://' ), '', site_url() ) );
 		$_salt		= "rbd_core_shortcode_review_engine_display-$_site-$_key";
-		$api_url	= $_url . $threshold . $reviews_per_page . $service . $location . $employee;
+		$api_url	= $_url . $threshold . $perpage . $reviews_per_page . $service . $location . $employee;
 
 		if( false === ( $transient = get_transient( $_salt ) ) ){
 			$transient = rbd_core_file_get_contents_curl( $api_url );
