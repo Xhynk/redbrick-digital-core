@@ -13,27 +13,7 @@
 			'placeholder' => ''
 		), $atts ) );
 
-		# Decode Non-Query Shortcode Parameters
-		$decoded_attr = array(
-			'url',
-			'title',
-			'columns',
-			'category',
-			'hide_date',
-			'characters',
-			'hide_staff',
-			'enable_ajax',
-			'disable_css',
-			'hide_reviewer',
-			'hide_location',
-			'hide_category',
-			'hide_overview',
-			'hide_citystate'
-		);
-
-		foreach( $decoded_attr as $attr ){
-			${$attr} = urldecode( $atts[$attr] );
-		}
+		foreach( $atts as $key => $val ) ${str_replace('-', '_', $key)} = $val;
 
 		# API Query Parameters
 		$query_params	= array(
@@ -46,9 +26,9 @@
 			'perpage'			=> 'reviews_per_page',
 		);
 
-		foreach( $query_params as $key => $val ){
+		foreach( $query_params as $key => $val )
 			${$key} = ( empty( $atts[$key] ) || $atts[$key] == 'all' ) ? '' : "&$val=".urldecode( $atts[$key] );
-		}
+
 
 		# Turn API Query from shortcode into a transient saved object
 		$_url		= rbd_core_url( true, $url );
@@ -133,8 +113,8 @@
 											$meta_name	= ( $hide_reviewer == true ) ? "" : " by <strong><span class='tooltip' data-tooltip='Removed for HIPAA compliance.'>Anonymous</span></strong>";
 											$_gravatar	= false;
 										} else {
-											$_gravatar		= $hide_gravatar == true ? @file_get_contents( 'https://www.gravatar.com/avatar/' . md5( strtolower( trim( $review->review_meta->reviewer->reviewer_email ) ) ) . '?d=404&s=32') : @file_get_contents( 'https://www.gravatar.com/avatar/' . md5( strtolower( trim( $review->review_meta->reviewer->reviewer_email ) ) ) . '?d=404&s=32');
-											$gravatar		= 'https://www.gravatar.com/avatar/' . md5( strtolower( trim( $review->review_meta->reviewer->reviewer_email ) ) ) . '?d=mm&s=56';
+											$_gravatar	= $hide_gravatar == true ? false : @file_get_contents( 'https://www.gravatar.com/avatar/' . md5( strtolower( trim( $review->review_meta->reviewer->reviewer_email ) ) ) . '?d=404&s=32');
+											$gravatar	= 'https://www.gravatar.com/avatar/' . md5( strtolower( trim( $review->review_meta->reviewer->reviewer_email ) ) ) . '?d=mm&s=56';
 											$meta_name	= ( $hide_reviewer == true ) ? "" : " by <strong><span>{$review->review_meta->reviewer->display_name}</span></strong>";
 										}
 
