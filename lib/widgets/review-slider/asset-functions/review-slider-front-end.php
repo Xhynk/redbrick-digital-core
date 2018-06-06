@@ -1,146 +1,94 @@
 <?php
-	/**
-	 * Parse Widget Front-End
-	 *
-	 * @since 0.2.1
-	 *
-	 * @uses rbd_core_review_slider_options_array() - Return an Array of Options
-	 * @uses rbd_core_url() - Return the Review Engine URL
-	*/
-	$array = rbd_core_review_slider_options_array();
-	foreach( $array as $var => $default_value){
+	wp_enqueue_style( 'widget-review-slider' );
+	wp_enqueue_script( 'widget-review-slider' );
+
+	/*add_action( 'wp_footer', function(){
+		RBD_core::display_popup();
+	});*/
+
+	foreach( rbd_core_review_slider_options() as $var => $default_value )
 		${$var} = apply_filters( 'widget_'.$var, $instance[$var] );
-	}
 
 	# Backwards Compatibility
 	$characters = !empty( $character_count ) ? $character_count : $characters;
 
-	# Slider Speed
-	/* Had to increase to n+1 because 0 was acting funny, so 1 is effectively 0, 101 is 100, etc. */
-	$speed = ( $slider_speed == 101 ? array( true, 3000, 500, '' ) :
-					( $slider_speed == 76 ? array( true, 5000, 700, '' ) :
-						( $slider_speed == 51 ? array( true, 7000, 900, '' ) :
-							( $slider_speed == 26 ? array( true, 9000, 900, '' ) :
-								( $slider_speed == 1 ? array( false, 86400, 86400, 'manual' ) : array( true, 3000, 750, '' ) ) ) ) ) );
-
-	# Build The Query, Save As Transient - refactored in 0.8.9
-	$query_array = array(
-		'perpage' => 'reviews_per_page',
-		'service' => 'category',
-		'employee' => 'employee',
-		'location' => 'location',
-		'threshold' => 'threshold'
+	#Query Parameters
+	$query_params	= array(
+		# Nomenclature is messed up service is actually category.
+		'service'          => 'category',
+		'employee'         => 'employee',
+		'location'         => 'location',
+		'threshold'        => 'threshold',
+		'reviews_per_page' => 'reviews_per_page',
+		'perpage'          => 'reviews_per_page',
 	);
 
-	foreach( $query_array as $key => $val ){
-		$var	= ${$key};
-		${$key}	= !empty( $var ) ? "&$val=$var" : '';
-	}
+	# Turn API Query from shortcode into a transient saved object
+	$url            = 'https://'. str_replace( ['http://', 'https://'], '', $url );
+	$api_url        = RBD_Core::rbd_core_url( true, $url );
+	$transient_name = RBD_Core::rbd_transient_salt( $args['widget_id'], 'rbd-review-slider' );
 
-	$_url		= rbd_core_url( true, $url );
-	$_query		= $threshold . $perpage . $service . $location . $employee;
-	$_id		= $args['widget_id'];
-	$_var		= ${$args['widget_id']};
-	$api_url	= $_url . $_query;
+	foreach( $query_params as $key => $val )
+		$api_url .= ( empty( ${$key} ) || ${$key} == 'all' ) ? '' : "&$val=". urldecode( ${$key} );
 
-	if ( false === ( $_var = get_transient( $_id ) ) ) {
-		$_var = rbd_core_file_get_contents_curl( $api_url );
-		set_transient( $_id, $_var, 86400 );
-	}
+	# Check Transient and make sure it's a valid request
+	$transient = get_transient( $transient_name );
+	if( false === $transient || strlen( $transient ) < 69 )
+		set_transient( $transient_name, wp_remote_retrieve_body( wp_remote_get( $api_url ) ), 86400 );
 
-	if( get_transient( $_id ) == '' ){
-		// If the API call was broken, transient will be empty. Delete it, and just make the call now.
-		delete_transient( $_id );
-		$api_object = json_decode( rbd_core_file_get_contents_curl( $api_url ) );
-	} else {
-		// If the API was successful, transient is good!
-		$api_object = json_decode( get_transient( $_id ) );
-	}
-
-	# Define Snippets and Preliminary Information
-	$arrow		= ' <i class="fa fa-angle-right"></i>';
-	$button_classes	= ( $disable_css == true ) ? 'button button-primary btn read-more' : 'rbd-button';
-	$counter	= 0;
-
-	//var_dump( rbd_core_review_slider_options_array() );
+	$json  = json_decode( get_transient( $transient_name ) );
+	$data  = $json->data[0];
+	$count = 0;
 
 	# Before/After Widget Defined By Theme
 	echo $args['before_widget']; ?>
-		<div class="rbd-core-plugin rbd-review-slider rbd-core-ui <?php echo $speed[3]; ?>" data-attr-slider-autoplay="<?php echo ($speed[0] == 1) ? 'true' : 'false'; ?>" data-attr-slider-delay="<?php echo $speed[1]; ?>"data-attr-slider-speed="<?php echo $speed[2]; ?>">
-			<?php echo !empty( $title ) ? $args['before_title'] . $title . $args['after_title'] : ''; ?>
-			<div class="review-slider-container unslider-horizontal">
-				<ul class="unslider-wrap unslider-carousel">
-					<?php
-						if( $api_object->data[0]->returned_reviews > 0 ){
-							foreach( $api_object->reviews as $review ){
-								$counter++;
-
-								$_title			= $review->title;
-								$_reviewed		= $review->review_meta->reviewed_item;
-								$_aggregate		= intval( $api_object->data->aggregate );
-								$_rating		= intval( $review->rating );
-								$_bad			= str_repeat( '★', 5 - $_rating );
-								$_good			= str_repeat( '★', $_rating );
-								$_content		= substr( $review->content, 0, $characters );
-								$_ellipses		= strlen( $review->content ) > $characters ? '...' : '';
-								$_more			= strlen( $review->content ) > $characters ? "<div class='_readmore center'>
-																									<a href='{$review->url}' target='_blank' class='$button_classes center' data-attr='Read More'><span class='_label'>Read More</span>$arrow</a>
-																								</div>" : '';
-								if( defined( 'RBD_HIPAA_COMPLIANCE' ) ){
-									$_author		= $hide_reviewer == true ? '' : "<br /><br /><span class='reviewer'><span><em class='tooltip' data-tooltip='Removed for HIPAA compliance.'>Anonymous</em></span></span>";
-									$_gravatar		= false;
-								} else {
-									$_gravatar		= $hide_gravatar == true ? @file_get_contents( 'http://www.gravatar.com/avatar/' . md5( strtolower( trim( $review->review_meta->reviewer->reviewer_email ) ) ) . '?d=404&s=32') : @file_get_contents( 'http://www.gravatar.com/avatar/' . md5( strtolower( trim( $review->review_meta->reviewer->reviewer_email ) ) ) . '?d=404&s=32');
-									$gravatar		= 'http://www.gravatar.com/avatar/' . md5( strtolower( trim( $review->review_meta->reviewer->reviewer_email ) ) ) . '?d=mm&s=70';
-									$_author		= $hide_reviewer == true ? "" : "<span class='reviewer'> - <span><em>{$review->review_meta->reviewer->display_name}</em></span></span>";
-								}
-
-
-								$_stars			= "<div class='review-stars center'>
-														<span>
-															<span class='star medium'>$_good</span>
-															<span class='dark-star medium'>$_bad</span>
-														</span> $_author
-													</div>";
-
-								$_service		= !empty( $_reviewed->service ) ? 'Reviewing <strong>'. $_reviewed->service .'</strong>' : '';
-								$_staff			= !empty( $_reviewed->staff->name ) ? ' provided by <strong>'. $_reviewed->staff->name .'</strong>' : '';
-								$_location		= !empty( $_reviewed->location->name ) ? ' in <strong>'.  $_reviewed->location->name .'</strong>' : '';
-
-								$_meta			= ( $hide_meta == true ) ? '' : '<div class="meta center">'. $_service . $_staff . $_location .'</div>';
-
-								$content		= $_content . $_ellipses . $_more; ?>
-
-								<li class="review-wrap review" style="list-style-type: none;">
-									<div>
-										<?php if($_gravatar != false) { ?>
-											<div class="gravatar">
-												<img src="<?php print( $gravatar ); ?>" />
-											</div>
-										<?php } ?>
-										<h5 class="review-title"><strong><?php echo $_title; ?></strong></h5>
-										<p class="review-content"><?php echo $content ?></p>
-										<div class="synopsis center">
-											<?php echo $_stars . $_meta; ?>
-										</div>
-									</div>
-								</li>
-
-								<?php if( $counter == $perpage ){
-									break;
-								}
+		<?php echo !empty( $title ) ? $args['before_title'] . $title . $args['after_title'] : ''; ?>
+		<?php if( $data->returned_reviews > 0 ){ ?>
+			<div class="rbd-core-ui">
+				<div class="rbd-review-slider" data-speed="<?= $slider_speed * 1000; ?>">
+					<?php foreach( $json->reviews as $review ){ ?>
+						<?php
+							if( $hide_meta != true ){
+								$meta['reviewer'] = ( $hide_reviewer == true || defined( 'RBD_HIPAA_COMPLIANCE' ) ) ? '' : "by {$review->review_meta->reviewer->display_name}";
+								$meta['date']     = ( $hide_date == true ) ? '' : "on {$review->review_meta->review_date->date}";
 							}
-						} else { ?>
-							<li class="review-wrap" style="list-style-type: none;">
-								<div>
-									<h5 class="review-title">No Reviews Found</h5>
-									<p class="review-content">Please adjust your review query.</p>
-								</div>
-							</li>
-						<?php }
-					?>
-				</ul>
+							$count++;
+
+							if( $count == 1 ) $start_class = 'rbd-curr';
+							else if( $count == 2 ) $start_class = 'rbd-next';
+							else $start_class = '';
+						?>
+						<div class="rbd-review <?= $start_class ?> ">
+							<h3 class="rbd-title"><?= $review->title; ?></h3>
+							<i class="rbd-score renderSVG" data-icon="star" data-repeat="5" data-score="<?= $review->rating; ?>"></i>
+							<div class="rbd-content">
+								<?php if( !defined( 'RBD_HIPAA_COMPLIANCE' ) && $hide_gravatar != true && $hide_reviewer != true ){
+									echo ( $review->review_meta->reviewer->gravatar != null ) ? '<img class="rbd-gravatar" src="'. $review->review_meta->reviewer->gravatar .'" />' : '';
+								} ?>
+								<?= // Echo Review Content. Trimmed string is shortened by the word
+									strlen( strip_tags( $review->content ) ) > $characters ? // if longer than defined
+									'<span class="rbd-content-limit">'. substr( $review->content, 0, strpos( $review->content, ' ', $characters ) ) .'…</span>' : // Trim and display Read More
+									'<span class="rbd-content-limit">'. $review->content .'</span>'; // Otherwise show full review content
+								?>
+							</div>
+							<div class="rbd-footing">
+								<a class="rbd-button rbd-small" href="<?= $review->url; ?>" target="_blank">Read More</a>
+								<!--<a href="#" class="rbd-button rbd-small" data-more="<?= str_replace( substr( $review->content, 0, strpos( $review->content, ' ', $characters ) ), '', $review->content ); ?>">Read More</a>-->
+							</div>
+							<div class="rbd-review-meta"><?= !empty( $meta ) ? 'Written '. join( ' ', $meta ) : ''; ?></div>
+						</div>
+					<?php } ?>
+				</div>
 			</div>
-		</div>
+		<?php } else { ?>
+			<div class="rbd-core-ui">
+				<div class="rbd-review-slider">
+					<div class="rbd-review rbd-curr">
+						<h3 class="rbd-heading">No Reviews Found</h3>
+						<div class="rbd-content">Please adjust your review query.</div>
+					</div>
+				</div>
+			</div>
+		<?php }?>
 	<?php echo $args['after_widget'];
 ?>

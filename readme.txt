@@ -1,25 +1,25 @@
 === Redbrick Digital Core ===
-Contributors: RedbrickDigital
-Tags: Review Engine
+Contributors: RedbrickDigital, Alex Demchak
+Tags: Review Engine, Reputation Management, Reviews
 Requires at least: 3.5.1
-Tested up to: 4.9.4
-Stable tag: 0.9.6.5
+Tested up to: 4.9.5
+Stable tag: 1.0.1
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Bring your Review Engine reviews into your WordPress website via shortcodes and widgets.
+Bring your **Review Engine** reviews into your WordPress website via shortcodes and widgets.
 
 == Description ==
 
-This plugins allows you to bring Review Engine reviews into your WordPress site via shortcodes and widget.
+This plugins allows you to bring **Review Engine** reviews into your WordPress site via shortcodes and widget.
 
-You **must** have a Review Engine *lite* or *paid* account to use this plugin.
+You **must** have a Review Engine account to use this plugin.
 
 == Installation ==
 
 1. Upload the plugin files to the `/wp-content/plugins/plugin-name` directory, or install the plugin through the WordPress plugins screen directly.
 2. Activate the plugin through the 'Plugins' screen in WordPress
 3. Go to the RBD Core menu item and place your review engine URL into provided text input.
-4. Now you may use the Review Engine Shortcode on any page, post, or custom post type with a content editor, or the Review Slider and Social Proof widgets in any widget area.
+4. Now you may use the Review Engine Shortcode on any Page or Post or use Review Engine, Review Slider, and Social Proof Widgets.
 
 == Screenshots ==
 
@@ -33,8 +33,29 @@ You **must** have a Review Engine *lite* or *paid* account to use this plugin.
 
 Make sure you've put a Review Engine URL into the *RBD Core* admin page!
 
-
 == Changelog ==
+= 1.0.1
+* The Review Engine Display shortcode has been radically improved.
+	* Bootstrap (Cutestrap) has been removed entirely.
+	* The Columns layout has been updated to CSS Grid. Flex Grid is built in as well (but not currently utilized)
+	* The Header has been changed to include a Review Breakdown.
+	* Read More now asynchronously loads the additional review content.
+	* The "Read More Reviews" button is now a "Load More Reviews" button that asynchronously loads reviews.
+* A new widget has been added that utilizes the Review Engine Display shortcode features.
+* The Review Slider widget has been radically improved.
+	* Animation has been smoothed by dropping reliance on jQuery, unslider, and range slider.
+	* Speed options now have a number in seconds instead of a range slider percent.
+* The Social Proof Widget has been radically improved.
+	* No more themes.
+	* The Aggregate Score and Review Totals now speak for themselves without being verbose.
+* General Improvements.
+	* We use SVG icons in place of alt-code text based stars.
+	* There's no longer dependence on any jQuery plugins, or even jQuery itself.
+	* Removed dependence on Bootstrap.
+	* Increase animation smoothness.
+	* Utilize Ajax/XHR requests to load Review Engine API data asynchronously.
+
+
 = 0.9.6.2 =
 * Verification kept failing for some reason. That has been temporarily disabled.
 
@@ -156,13 +177,11 @@ Make sure you've put a Review Engine URL into the *RBD Core* admin page!
 
 To enable the shortcodes and widgets, first go to the RBD Core menu item that's in the left-hand admin menu. Place the URL of your Review Engine in the Review Engine URL text input, and then hit the Save Changes button.
 
-##Configuring the Review Engine Display Shortcode
+##Configuring the Review Engine Display Shortcode/Widget
 
 Now go into any Page, Post, or Custom Post Type that has a content editor. You'll now have an Add Review Engine Display button next to Add Media. Click on that to access the shortcode editing popup.
 
-**URL**: Adjust your threshold to 3, 4, or 5 stars. *Note: This will only grab published reviews.*
-
-**Title**: An option H2 tag to preface your reviews section with.
+**URL**: Place the desired Review Engine URL here.
 
 **Threshold**: Set this to 3, 4, or 5 stars to grab published reviews at and above that threshold.
 
@@ -176,15 +195,11 @@ Now go into any Page, Post, or Custom Post Type that has a content editor. You'l
 
 **Reviews Per Page**: Choose how many reviews show before the Show More Reviews button appears (if you have more reviews than are returned).
 
-**Max Columns**: Determine how many columns of reviews there are. *Note: 3 often works best for full width pages, and 2 for pages with sidebars.*
+**Max Columns**: Determine how many columns of reviews there are.
 
-**Hide X**: Choose to hide some Meta Data. *Note: City, Location, Staff, and Category are currently inoperable.*
+**Hide X**: Choose to hide some Meta Data.
 
-**Enable Ajax**: Currently inoperable.
-
-**Hide Overview**: Hide the overview and aggregate score.
-
-**Disable CSS**: Will remove some non-structural CSS rules.
+**Disable 3d**: Will disabled the 3d hover effects.
 
 *Click the Insert Into {Post Type} button and then click publish or update.*
 
@@ -208,10 +223,6 @@ In your Appearance > Widgets page, there is a Review Slider widget. Drag that in
 
 **Location**: Query against reviews from this location, default "All".
 
-**Hide Reviewer**: Hide the reviewer's name.
+**Hide X**: Hide the relevant meta data
 
-**Hide Meta**: Hide the meta data under the review.
-
-**Disable CSS**: Will remove some non-structural CSS rules.
-
-**Slider Speed**: Will adjust the slider's speed, OFF will prevent all scrolling, and thus show only one review.
+**Slider Speed**: Will adjust the slider's speed, showing each slider for the desired amount of seconds.
