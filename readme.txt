@@ -2,8 +2,8 @@
 Contributors: RedbrickDigital, Alex Demchak
 Tags: Review Engine, Reputation Management, Reviews
 Requires at least: 3.5.1
-Tested up to: 4.9.5
-Stable tag: 1.0.1
+Tested up to: 4.9.6
+Stable tag: 1.0.1.1
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Bring your **Review Engine** reviews into your WordPress website via shortcodes and widgets.
@@ -34,6 +34,10 @@ You **must** have a Review Engine account to use this plugin.
 Make sure you've put a Review Engine URL into the *RBD Core* admin page!
 
 == Changelog ==
+= 1.0.1.1 =
+* Fixed a CORS request error when using the Load More Reviews button.
+* Prevent caching tiny (broken) requests to Review Engine API in Shortcode.
+
 = 1.0.1
 * The Review Engine Display shortcode has been radically improved.
 	* Bootstrap (Cutestrap) has been removed entirely.

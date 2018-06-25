@@ -2,7 +2,7 @@
 /**
 	* Plugin Name: Redbrick Digital Core
 	* Description: This plugin enables Redbrick Digital Core usage, including the Review Engine Display shortcode, Review Slider widget, and Social Proof widget.
-	* Version:     1.0.1
+	* Version:     1.0.1.1
 	* Author:      RedbrickDigital.net
 	* Text Domain: rbd-core
 	* License:     GPL-2.0+

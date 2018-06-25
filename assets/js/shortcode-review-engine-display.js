@@ -1,7 +1,7 @@
 let reviewEngineURL = document.querySelector('.rbd-review-engine-display').getAttribute( 'data-review-engine-url' );
 
 // Ajax Request to Review Engine
-function RBD_newReview( targetGrid, review, characters, hideGravatars, ){
+function RBD_newReview( targetGrid, review, characters, hideGravatars ){
 	let newReview     = document.createElement('div');
 	let reviewerName  = ( review.review_meta.reviewer.anonymous != null ) ? 'Anonymous' : review.review_meta.reviewer.display_name;
 	let gravatar      = ( hideGravatars === true || review.review_meta.reviewer.gravatar == null || review.review_meta.reviewer.gravatar.length < 1 ) ? '' : '<img class="rbd-gravatar" src="'+ review.review_meta.reviewer.gravatar +'" />';
@@ -116,7 +116,7 @@ for( i = 0, n = loadMore.length; i < n; ++i ){
 
 		let data = [].filter.call(this.attributes, function(at) { return /^data-/.test(at.name); });
 
-		let xhr = RBD_createCORSRequest('GET', reviewEngineURL + '/reviews-api-v2/?user=test&key=cdff.1070bdaacf&threshold=3&query_v2=true&reviews_per_page='+perpage+'&offset='+offset);
+		let xhr = RBD_createCORSRequest('GET', reviewEngineURL + 'reviews-api-v2/?user=test&key=cdff.1070bdaacf&threshold=3&query_v2=true&reviews_per_page='+perpage+'&offset='+offset);
 
 		if( !xhr ){
 			throw new Error('CORS not supported');

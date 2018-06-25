@@ -49,7 +49,7 @@
 
 		# Check Transient and make sure it's a valid request
 		$transient = get_transient( $transient_name );
-		if( false === $transient || strlen( $transient ) < 69 )
+		if( false === $transient || strlen( $transient ) < 125 )
 			set_transient( $transient_name, wp_remote_retrieve_body( wp_remote_get( $api_url ) ), 86400 );
 
 		$json = json_decode( get_transient( $transient_name ) );
