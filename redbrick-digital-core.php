@@ -2,7 +2,7 @@
 /**
 	* Plugin Name: Redbrick Digital Core
 	* Description: This plugin enables Redbrick Digital Core usage, including the Review Engine Display shortcode, Review Slider widget, and Social Proof widget.
-	* Version:     1.0.1.1
+	* Version:     1.0.2
 	* Author:      RedbrickDigital.net
 	* Text Domain: rbd-core
 	* License:     GPL-2.0+
@@ -133,14 +133,20 @@ class RBD_Core {
 	public static function rbd_core_url( $api_url = false, $alternate_url = null ){
 		$url = ( $alternate_url == null ) ? get_option('rbd_core_review_engine_url') : $alternate_url;
 
-		$url = current( explode( '/', str_replace( array( 'https://', 'http://' ), '', $url ) ) );
+		//$url = current( explode( '/', str_replace( array( 'https://', 'http://' ), '', $url ) ) );
+		$url = str_replace( array( 'https://', 'http://' ), '', $url );
+
+		if( substr( $url, -1 ) == '/' ){
+			$url = substr( $url, 0, -1 );
+		}
+		
 		return ( $api_url == true ) ? 'https://'. $url .'/reviews-api-v2/?query_v2=true&user=RedBrickDigital&key=cebb.4268eddefa' : $url;
 	}
 
 	public static function rbd_core_api_call(){
 		$api_url        = RBD_Core::rbd_core_url( true ) .'&reviews_per_page=1';
 		$transient_name = 'rbd_core_api_call';
-		
+
 		$transient = get_transient( $transient_name );
 		if( false === $transient || strlen( $transient ) < 69 )
 			set_transient( $transient_name, wp_remote_retrieve_body( wp_remote_get( $api_url ) ), 86400 );
