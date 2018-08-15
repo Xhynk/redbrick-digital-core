@@ -1,5 +1,5 @@
 === Redbrick Digital Core ===
-Contributors: RedbrickDigital, Alex Demchak
+Contributors: RedbrickDigital, alexdemchak
 Tags: Review Engine, Reputation Management, Reviews
 Requires at least: 3.5.1
 Tested up to: 4.9.5
